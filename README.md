@@ -11,20 +11,24 @@ pnpm install
 ## Adding the env credentials
 
 ```bash
-DATABASE_URL= #Your Neon DB URL
+DATABASE_URL= #Your PostgreSQL connection string (e.g., postgresql://username:password@localhost:5432/database_name)
 ```
+
 ```bash
 BETTER_AUTH_SECRET= #Your Better Auth Secret
 BETTER_AUTH_URL=http://localhost:3000 #Your Base URL of your app
 ```
+
 ```bash
 GOOGLE_CLIENT_ID= #Your Google Client ID
 GOOGLE_CLIENT_SECRET= #Your Google Client Secret
 ```
+
 ```bash
 GITHUB_CLIENT_ID= #Your Github Client ID
 GITHUB_CLIENT_SECRET= #Your Github Client Secret
 ```
+
 ```bash
 RESEND_API_KEY= #Your Resend API Key
 ```
@@ -39,7 +43,7 @@ It will generate a auth-schema.ts that we need to copy to the drizzle schema
 
 We need to copy the content of the auth-schema to the drizzle schema in the db folder.
 
-## Pussing the schema to the Neon db
+## Pushing the schema to the PostgreSQL database
 
 first we need to generate the schema
 
@@ -47,7 +51,7 @@ first we need to generate the schema
     npx db:generate
 ```
 
-after that we need to push it to our Neon db
+after that we need to push it to our PostgreSQL database
 
 ```bash
     npx db:push
