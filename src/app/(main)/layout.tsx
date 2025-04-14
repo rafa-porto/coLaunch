@@ -1,6 +1,6 @@
 import Navbar from "@/components/navbar";
 import "@/app/globals.css";
-import { Toaster } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
 
 export default function DashboardLayout({
   children,
@@ -11,7 +11,7 @@ export default function DashboardLayout({
     <>
       <Navbar />
       {children}
-      <Toaster />
+      {/* Toaster is already included in the root layout */}
     </>
   );
 }

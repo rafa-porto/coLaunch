@@ -100,19 +100,19 @@ export default function SignUp() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-8">
-      <div className="w-full max-w-xl space-y-8 p-8 rounded-lg shadow-md border border-[#424242] bg-[#2A2A2A]">
+      <div className="w-full max-w-xl space-y-8 p-8 rounded-lg shadow-md border border-border bg-card">
         <div className="flex flex-col items-center">
-          <div className="flex items-center gap-2 text-xl font-semibold text-[#A0A0A0]">
-            <AirVent className="h-6 w-6 text-[#A0A0A0]" />
+          <div className="flex items-center gap-2 text-xl font-semibold text-muted-foreground">
+            <AirVent className="h-6 w-6 text-muted-foreground" />
             Next / Drizzle / Better-auth.
           </div>
         </div>
 
         <div className="text-center space-y-2">
-          <h2 className="text-2xl font-semibold text-[#7a7a7a]">
+          <h2 className="text-2xl font-semibold text-card-foreground">
             Create your account
           </h2>
-          <p className="text-sm text-[#7a7a7a]">
+          <p className="text-sm text-muted-foreground">
             Sign up with your GitHub or Google account
           </p>
         </div>
@@ -121,7 +121,7 @@ export default function SignUp() {
           <button
             onClick={handleGithubSignUp}
             disabled={loading}
-            className="flex-1 flex items-center text-[#A0A0A0] justify-center gap-2 px-4 py-2 border border-white/10 rounded-md bg-white/5 hover:bg-white/10 transition-colors disabled:opacity-50 cursor-pointer"
+            className="flex-1 flex items-center text-muted-foreground justify-center gap-2 px-4 py-2 border border-border rounded-md bg-background hover:bg-muted transition-colors disabled:opacity-50 cursor-pointer"
           >
             <svg
               className="w-5 h-5"
@@ -141,7 +141,7 @@ export default function SignUp() {
           <button
             onClick={handleGoogleSignUp}
             disabled={loading}
-            className="flex-1 flex items-center text-[#A0A0A0] justify-center gap-2 px-4 py-2 border border-white/10 rounded-md bg-white/5 hover:bg-white/10 transition-colors disabled:opacity-50 cursor-pointer"
+            className="flex-1 flex items-center text-muted-foreground justify-center gap-2 px-4 py-2 border border-border rounded-md bg-background hover:bg-muted transition-colors disabled:opacity-50 cursor-pointer"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -155,10 +155,10 @@ export default function SignUp() {
 
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-white/10"></div>
+            <div className="w-full border-t border-border"></div>
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="px-4 p-1 bg-[#424242] border border-[#424242] rounded-md text-[#7a7a7a]">
+            <span className="px-4 p-1 bg-card border border-border rounded-md text-muted-foreground">
               Or continue with
             </span>
           </div>
@@ -169,7 +169,7 @@ export default function SignUp() {
             <div>
               <label
                 htmlFor="name"
-                className="block text-sm font-medium text-[#A0A0A0]"
+                className="block text-sm font-medium text-muted-foreground"
               >
                 Name
               </label>
@@ -181,7 +181,7 @@ export default function SignUp() {
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 bg-white/5 border border-white/10 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="mt-1 block w-full px-3 py-2 bg-background border border-border rounded-md text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
                 placeholder="Enter your name"
               />
             </div>
@@ -189,7 +189,7 @@ export default function SignUp() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-[#A0A0A0]"
+                className="block text-sm font-medium text-muted-foreground"
               >
                 Email address
               </label>
@@ -201,7 +201,7 @@ export default function SignUp() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 bg-white/5 border border-white/10 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="mt-1 block w-full px-3 py-2 bg-background border border-border rounded-md text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
                 placeholder="Enter your email"
               />
             </div>
@@ -209,7 +209,7 @@ export default function SignUp() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-[#A0A0A0]"
+                className="block text-sm font-medium text-muted-foreground"
               >
                 Password
               </label>
@@ -221,7 +221,7 @@ export default function SignUp() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 bg-white/5 border border-white/10 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="mt-1 block w-full px-3 py-2 bg-background border border-border rounded-md text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
                 placeholder="Enter your password"
               />
             </div>
@@ -230,7 +230,7 @@ export default function SignUp() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-[#7a7a7a] bg-[#242424] hover:bg-[#424242] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#7a7a7a] disabled:opacity-50 cursor-pointer"
+            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-primary-foreground bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring disabled:opacity-50 cursor-pointer"
           >
             {loading ? "Creating account..." : "Create account"}
           </button>
@@ -241,11 +241,11 @@ export default function SignUp() {
         </form>
 
         <div className="text-center">
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-muted-foreground">
             Already have an account?{" "}
             <Link
               href="/sign-in"
-              className="text-purple-400 hover:text-purple-300 transition-colors"
+              className="text-primary hover:text-primary/80 transition-colors"
             >
               Sign in
             </Link>

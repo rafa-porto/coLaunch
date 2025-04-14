@@ -30,7 +30,7 @@ export const TopBar = ({
   };
 
   return (
-    <header className="bg-[#2a2a2a]  h-16 px-6 flex items-center justify-between border-b border-[#424242] sticky top-0 w-full z-10 shadow-sm">
+    <header className="bg-background h-16 px-6 flex items-center justify-between border-b border-border sticky top-0 w-full z-10 shadow-sm">
       <div className="flex items-center flex-1 max-w-xl gap-4">
         <MobileSidebar
           isOpen={false}
@@ -39,27 +39,27 @@ export const TopBar = ({
           }}
         />
         <button
-          className="p-1 hidden lg:block text-[#7a7a7a]"
+          className="p-1 hidden lg:block text-muted-foreground"
           onClick={onToggleSidebar}
           aria-label="Toggle Sidebar"
         >
           ☰
         </button>
         <div className="relative flex-1 ml-4 lg:ml-0">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#7a7a7a] w-5 h-5" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
           <input
             type="text"
             placeholder="Search anything here..."
-            className="w-full pl-10 pr-4 py-2 rounded-lg border border-[#424242] focus:outline-none focus:ring-2 focus:ring-[#7a7a7a] focus:border-transparent text-[#a3adc2]"
+            className="w-full pl-10 pr-4 py-2 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent text-foreground placeholder:text-muted-foreground"
           />
         </div>
       </div>
 
       <div className="flex items-center space-x-4">
         <DropdownMenu>
-          <DropdownMenuTrigger className="flex items-center space-x-2 px-2 py-1 hover:bg-[#424242] cursor-pointer bg-[#242424] border border-[#424242] rounded-lg focus:outline-none">
+          <DropdownMenuTrigger className="flex items-center space-x-2 px-2 py-1 hover:bg-muted cursor-pointer bg-background border border-border rounded-lg focus:outline-none hover:text-foreground transition-colors">
             {isPending ? (
-              <div className="w-8 h-8 rounded-full bg-[#424242] animate-pulse" />
+              <div className="w-8 h-8 rounded-full bg-muted animate-pulse" />
             ) : (
               <Image
                 src={session?.user?.image || `https://github.com/shadcn.png`}
@@ -69,29 +69,31 @@ export const TopBar = ({
                 className="w-8 h-8 rounded-full"
               />
             )}
-            <span className="text-sm font-medium text-[#7a7a7a]">
+            <span className="text-sm font-medium text-foreground">
               {isPending ? "Loading..." : session?.user?.name || "Guest"}
             </span>
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"
-            className="w-56 bg-[#242424] border border-[#424242] text-[#7a7a7a]"
+            className="w-56 bg-card border border-border text-card-foreground"
           >
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator className="bg-[#424242]" />
-            <DropdownMenuItem className="hover:bg-[#424242]">
+            <DropdownMenuLabel className="font-medium">
+              My Account
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator className="bg-border" />
+            <DropdownMenuItem className="hover:bg-muted hover:text-foreground cursor-pointer">
               Profile
             </DropdownMenuItem>
-            <DropdownMenuItem className="hover:bg-[#424242]">
+            <DropdownMenuItem className="hover:bg-muted hover:text-foreground cursor-pointer">
               Settings
             </DropdownMenuItem>
-            <DropdownMenuItem className="hover:bg-[#424242]">
+            <DropdownMenuItem className="hover:bg-muted hover:text-foreground cursor-pointer">
               Billing
             </DropdownMenuItem>
-            <DropdownMenuSeparator className="bg-[#424242]" />
+            <DropdownMenuSeparator className="bg-border" />
             <DropdownMenuItem
               onClick={handleSignOut}
-              className="text-red-600 cursor-pointer"
+              className="text-destructive cursor-pointer hover:bg-muted hover:text-destructive"
             >
               Log out
             </DropdownMenuItem>

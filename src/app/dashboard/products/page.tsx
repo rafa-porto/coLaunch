@@ -23,22 +23,22 @@ export default function ProductsPage() {
       </div>
 
       <main className="flex-1 p-0 pt-4">
-        <Card className="bg-[#2A2A2A] border border-[#424242]">
+        <Card className="bg-card border border-border">
           <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="font-medium text-[#A0A0A0]">
+            <CardTitle className="font-medium text-muted-foreground">
               Meus Produtos
             </CardTitle>
-            <Button asChild className="bg-[#b17f01] hover:bg-[#8a6401]">
+            <Button asChild className="bg-primary hover:bg-primary/90">
               <Link href="/dashboard/products/new">Novo Produto</Link>
             </Button>
           </CardHeader>
           <CardContent>
             {userProducts.length === 0 ? (
               <div className="text-center py-8">
-                <p className="text-[#7a7a7a] mb-4">
+                <p className="text-muted-foreground mb-4">
                   Você ainda não enviou nenhum produto.
                 </p>
-                <Button asChild className="bg-[#b17f01] hover:bg-[#8a6401]">
+                <Button asChild className="bg-primary hover:bg-primary/90">
                   <Link href="/dashboard/products/new">
                     Enviar meu primeiro produto
                   </Link>
@@ -49,7 +49,7 @@ export default function ProductsPage() {
                 {userProducts.map((product) => (
                   <Card
                     key={product.id}
-                    className="bg-[#242424] border-[#424242] overflow-hidden hover:border-[#b17f01] transition-all"
+                    className="bg-background border-border overflow-hidden hover:border-primary transition-all"
                   >
                     {product.thumbnail && (
                       <div className="relative h-40 w-full">
@@ -62,17 +62,17 @@ export default function ProductsPage() {
                       </div>
                     )}
                     <CardHeader className="py-3">
-                      <CardTitle className="text-white text-base">
+                      <CardTitle className="text-foreground text-base">
                         <Link
                           href={`/products/${product.slug}`}
-                          className="hover:text-[#b17f01]"
+                          className="hover:text-primary"
                         >
                           {product.title}
                         </Link>
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="py-2 flex justify-between items-center">
-                      <div className="flex items-center gap-2 text-[#7a7a7a]">
+                      <div className="flex items-center gap-2 text-muted-foreground">
                         <span>⬆️ {product.upvoteCount}</span>
                         <span>💬 {product.commentCount}</span>
                       </div>
@@ -81,7 +81,7 @@ export default function ProductsPage() {
                           asChild
                           size="sm"
                           variant="outline"
-                          className="border-[#424242] text-[#7a7a7a]"
+                          className="border-border text-muted-foreground"
                         >
                           <Link href={`/dashboard/products/${product.id}/edit`}>
                             Editar
@@ -91,7 +91,7 @@ export default function ProductsPage() {
                           asChild
                           size="sm"
                           variant="outline"
-                          className="border-[#424242] text-[#7a7a7a]"
+                          className="border-border text-muted-foreground"
                         >
                           <Link href={`/products/${product.slug}`}>Ver</Link>
                         </Button>

@@ -22,9 +22,9 @@ export default function NewProductPage() {
       </div>
 
       <main className="flex-1 p-0 pt-4">
-        <Card className="bg-[#2A2A2A] border border-[#424242]">
+        <Card className="bg-card border border-border">
           <CardHeader>
-            <CardTitle className="font-medium text-[#A0A0A0]">
+            <CardTitle className="font-medium text-muted-foreground">
               Novo Produto
             </CardTitle>
           </CardHeader>

@@ -41,19 +41,19 @@ export default function DashboardPage() {
       <main className="flex-1 p-0 md:p-6 pt-0">
         <Tabs defaultValue="overview">
           <div className="flex items-center justify-between">
-            <TabsList className="bg-[#2A2A2A] border border-[#424242]">
-              <TabsTrigger value="overview" className="text-[#7A7A7A]">
+            <TabsList className="bg-card border border-border">
+              <TabsTrigger value="overview" className="text-muted-foreground">
                 Visão Geral
               </TabsTrigger>
-              <TabsTrigger value="products" className="text-[#7A7A7A]">
+              <TabsTrigger value="products" className="text-muted-foreground">
                 Meus Produtos
               </TabsTrigger>
-              <TabsTrigger value="activity" className="text-[#7A7A7A]">
+              <TabsTrigger value="activity" className="text-muted-foreground">
                 Atividade
               </TabsTrigger>
             </TabsList>
             <div className="flex items-center gap-2">
-              <Button asChild className="bg-[#b17f01] hover:bg-[#8a6401]">
+              <Button asChild className="bg-primary hover:bg-primary/90">
                 <Link href="/dashboard/products/new">
                   <Plus className="mr-2 h-4 w-4" />
                   Novo Produto
@@ -63,15 +63,15 @@ export default function DashboardPage() {
           </div>
           <TabsContent value="overview" className="space-y-4 pt-4">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              <Card className="bg-[#2A2A2A] border border-[#424242]">
+              <Card className="bg-card border border-border">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-[#A0A0A0]">
+                  <CardTitle className="text-sm font-medium text-muted-foreground">
                     Meus Produtos
                   </CardTitle>
-                  <Package className="h-4 w-4 text-[#b17f01]" />
+                  <Package className="h-4 w-4 text-primary" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-[#7A7A7A]">
+                  <div className="text-2xl font-bold text-card-foreground">
                     {userProducts.length}
                   </div>
                   <p className="text-xs text-muted-foreground">
@@ -79,15 +79,15 @@ export default function DashboardPage() {
                   </p>
                 </CardContent>
               </Card>
-              <Card className="bg-[#2A2A2A] border border-[#424242]">
+              <Card className="bg-card border border-border">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-[#A0A0A0]">
+                  <CardTitle className="text-sm font-medium text-muted-foreground">
                     Total de Upvotes
                   </CardTitle>
-                  <ThumbsUp className="h-4 w-4 text-[#b17f01]" />
+                  <ThumbsUp className="h-4 w-4 text-primary" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-[#7A7A7A]">
+                  <div className="text-2xl font-bold text-card-foreground">
                     {userProducts.reduce(
                       (total, product) => total + (product.upvoteCount || 0),
                       0
@@ -98,15 +98,15 @@ export default function DashboardPage() {
                   </p>
                 </CardContent>
               </Card>
-              <Card className="bg-[#2A2A2A] border border-[#424242]">
+              <Card className="bg-card border border-border">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-[#A0A0A0]">
+                  <CardTitle className="text-sm font-medium text-muted-foreground">
                     Comentários
                   </CardTitle>
-                  <MessageSquare className="h-4 w-4 text-[#b17f01]" />
+                  <MessageSquare className="h-4 w-4 text-primary" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-[#7A7A7A]">
+                  <div className="text-2xl font-bold text-card-foreground">
                     {userProducts.reduce(
                       (total, product) => total + (product.commentCount || 0),
                       0
@@ -117,15 +117,15 @@ export default function DashboardPage() {
                   </p>
                 </CardContent>
               </Card>
-              <Card className="bg-[#2A2A2A] border border-[#424242]">
+              <Card className="bg-card border border-border">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-[#A0A0A0]">
+                  <CardTitle className="text-sm font-medium text-muted-foreground">
                     Status
                   </CardTitle>
-                  <Rocket className="h-4 w-4 text-[#b17f01]" />
+                  <Rocket className="h-4 w-4 text-primary" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-[#7A7A7A]">
+                  <div className="text-2xl font-bold text-card-foreground">
                     {userProducts.filter((p) => p.status === "approved").length}{" "}
                     / {userProducts.length}
                   </div>
@@ -136,16 +136,16 @@ export default function DashboardPage() {
               </Card>
             </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-              <Card className="bg-[#2A2A2A] lg:col-span-4 border border-[#424242]">
+              <Card className="bg-card lg:col-span-4 border border-border">
                 <CardHeader>
-                  <CardTitle className="font-medium text-[#A0A0A0]">
+                  <CardTitle className="font-medium text-muted-foreground">
                     Recent Sales
                   </CardTitle>
                   <CardDescription>
                     You made 265 sales this month.
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="text-[#7A7A7A]">
+                <CardContent className="text-card-foreground">
                   <p>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                     Repudiandae omnis possimus fugiat qui voluptate ratione
@@ -153,16 +153,16 @@ export default function DashboardPage() {
                   </p>
                 </CardContent>
               </Card>
-              <Card className="bg-[#2A2A2A] lg:col-span-3 border border-[#424242]">
+              <Card className="bg-card lg:col-span-3 border border-border">
                 <CardHeader>
-                  <CardTitle className="font-medium text-[#A0A0A0]">
+                  <CardTitle className="font-medium text-muted-foreground">
                     Recent Orders
                   </CardTitle>
                   <CardDescription>
                     You received 30 orders this month.
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="text-[#7A7A7A]">
+                <CardContent className="text-card-foreground">
                   <p>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                     Repudiandae omnis possimus fugiat qui voluptate ratione
@@ -172,7 +172,7 @@ export default function DashboardPage() {
                 <CardFooter>
                   <Button
                     variant="outline"
-                    className="w-full bg-[#242424] border border-[#424242] text-[#7A7A7A] hover:bg-[#1d1d1d] hover:border-[#424242] hover:text-[#7A7A7A] cursor-pointer"
+                    className="w-full bg-background border border-border text-muted-foreground hover:bg-background/90 hover:border-border hover:text-muted-foreground cursor-pointer"
                   >
                     View All Orders
                   </Button>
@@ -180,10 +180,10 @@ export default function DashboardPage() {
               </Card>
             </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-              <Card className="bg-[#2A2A2A] lg:col-span-4 border border-[#424242]">
+              <Card className="bg-card lg:col-span-4 border border-border">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0">
                   <div>
-                    <CardTitle className="font-medium text-[#A0A0A0]">
+                    <CardTitle className="font-medium text-muted-foreground">
                       Performance Overview
                     </CardTitle>
                     <CardDescription>
@@ -194,7 +194,7 @@ export default function DashboardPage() {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="bg-[#242424] border border-[#424242] text-[#7A7A7A]"
+                      className="bg-background border border-border text-muted-foreground"
                     >
                       <Calendar className="mr-2 h-4 w-4" />
                       Last 30 days
@@ -202,7 +202,7 @@ export default function DashboardPage() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-[300px] w-full rounded-md border border-dashed border-[#424242] bg-[#242424] flex items-center justify-center">
+                  <div className="h-[300px] w-full rounded-md border border-dashed border-border bg-background flex items-center justify-center">
                     <div className="flex flex-col items-center text-center">
                       <BarChart3 className="h-10 w-10 text-muted-foreground mb-2" />
                       <p className="text-sm text-muted-foreground">
@@ -212,9 +212,9 @@ export default function DashboardPage() {
                   </div>
                 </CardContent>
               </Card>
-              <Card className="bg-[#2A2A2A] lg:col-span-3 border border-[#424242]">
+              <Card className="bg-card lg:col-span-3 border border-border">
                 <CardHeader>
-                  <CardTitle className="font-medium text-[#A0A0A0]">
+                  <CardTitle className="font-medium text-muted-foreground">
                     Recent Notifications
                   </CardTitle>
                   <CardDescription>
@@ -262,7 +262,7 @@ export default function DashboardPage() {
                           />
                         </div>
                         <div className="flex-1 space-y-1">
-                          <p className="text-sm font-medium leading-none text-[#7A7A7A]">
+                          <p className="text-sm font-medium leading-none text-card-foreground">
                             {notification.title}
                           </p>
                           <p className="text-xs text-muted-foreground">
@@ -277,9 +277,9 @@ export default function DashboardPage() {
             </div>
 
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              <Card className="bg-[#2A2A2A] border border-[#424242]">
+              <Card className="bg-card border border-border">
                 <CardHeader>
-                  <CardTitle className="font-medium text-[#A0A0A0]">
+                  <CardTitle className="font-medium text-muted-foreground">
                     Quick Actions
                   </CardTitle>
                   <CardDescription>
@@ -297,7 +297,7 @@ export default function DashboardPage() {
                       <Button
                         key={i}
                         variant="outline"
-                        className="h-20 flex-col bg-[#242424] border border-[#424242] text-[#7A7A7A] hover:bg-[#1d1d1d] hover:border-[#424242] hover:text-[#7A7A7A] cursor-pointer"
+                        className="h-20 flex-col bg-background border border-border text-muted-foreground hover:bg-background/90 hover:border-border hover:text-muted-foreground cursor-pointer"
                       >
                         <action.icon className="mb-2 h-5 w-5" />
                         {action.label}
@@ -307,9 +307,9 @@ export default function DashboardPage() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-[#2A2A2A] border border-[#424242]">
+              <Card className="bg-card border border-border">
                 <CardHeader>
-                  <CardTitle className="font-medium text-[#A0A0A0]">
+                  <CardTitle className="font-medium text-muted-foreground">
                     Upcoming Tasks
                   </CardTitle>
                   <CardDescription>
@@ -350,7 +350,7 @@ export default function DashboardPage() {
                         </div>
                         <div className="flex-1">
                           <p
-                            className={`text-sm font-medium ${task.completed ? "line-through text-muted-foreground" : "text-[#7A7A7A]"}`}
+                            className={`text-sm font-medium ${task.completed ? "line-through text-muted-foreground" : "text-card-foreground"}`}
                           >
                             {task.title}
                           </p>
@@ -364,9 +364,9 @@ export default function DashboardPage() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-[#2A2A2A] border border-[#424242]">
+              <Card className="bg-card border border-border">
                 <CardHeader>
-                  <CardTitle className="font-medium text-[#A0A0A0]">
+                  <CardTitle className="font-medium text-muted-foreground">
                     Team Activity
                   </CardTitle>
                   <CardDescription>
@@ -403,7 +403,7 @@ export default function DashboardPage() {
                         </div>
                         <div className="flex-1 space-y-1">
                           <p className="text-sm">
-                            <span className="font-medium text-[#7A7A7A]">
+                            <span className="font-medium text-card-foreground">
                               {activity.user}
                             </span>{" "}
                             {activity.action}
@@ -420,27 +420,27 @@ export default function DashboardPage() {
             </div>
           </TabsContent>
           <TabsContent value="products" className="space-y-4 pt-4">
-            <Card className="bg-[#2A2A2A] border border-[#424242]">
+            <Card className="bg-card border border-border">
               <CardHeader className="flex flex-row items-center justify-between">
                 <div>
-                  <CardTitle className="font-medium text-[#A0A0A0]">
+                  <CardTitle className="font-medium text-muted-foreground">
                     Meus Produtos
                   </CardTitle>
                   <CardDescription>
                     Gerencie seus produtos enviados
                   </CardDescription>
                 </div>
-                <Button asChild className="bg-[#b17f01] hover:bg-[#8a6401]">
+                <Button asChild className="bg-primary hover:bg-primary/90">
                   <Link href="/dashboard/products/new">Novo Produto</Link>
                 </Button>
               </CardHeader>
               <CardContent>
                 {userProducts.length === 0 ? (
                   <div className="text-center py-8">
-                    <p className="text-[#7a7a7a] mb-4">
+                    <p className="text-muted-foreground mb-4">
                       Você ainda não enviou nenhum produto.
                     </p>
-                    <Button asChild className="bg-[#b17f01] hover:bg-[#8a6401]">
+                    <Button asChild className="bg-primary hover:bg-primary/90">
                       <Link href="/dashboard/products/new">
                         Enviar meu primeiro produto
                       </Link>
@@ -451,7 +451,7 @@ export default function DashboardPage() {
                     {userProducts.slice(0, 4).map((product) => (
                       <Card
                         key={product.id}
-                        className="bg-[#242424] border-[#424242] overflow-hidden hover:border-[#b17f01] transition-all"
+                        className="bg-background border-border overflow-hidden hover:border-primary transition-all"
                       >
                         {product.thumbnail && (
                           <div className="relative h-40 w-full">
@@ -464,17 +464,17 @@ export default function DashboardPage() {
                           </div>
                         )}
                         <CardHeader className="py-3">
-                          <CardTitle className="text-white text-base">
+                          <CardTitle className="text-foreground text-base">
                             <Link
                               href={`/products/${product.slug}`}
-                              className="hover:text-[#b17f01]"
+                              className="hover:text-primary"
                             >
                               {product.title}
                             </Link>
                           </CardTitle>
                         </CardHeader>
                         <CardContent className="py-2 flex justify-between items-center">
-                          <div className="flex items-center gap-2 text-[#7a7a7a]">
+                          <div className="flex items-center gap-2 text-muted-foreground">
                             <span>⬆️ {product.upvoteCount || 0}</span>
                             <span>💬 {product.commentCount || 0}</span>
                           </div>
@@ -483,7 +483,7 @@ export default function DashboardPage() {
                               asChild
                               size="sm"
                               variant="outline"
-                              className="border-[#424242] text-[#7a7a7a]"
+                              className="border-border text-muted-foreground"
                             >
                               <Link
                                 href={`/dashboard/products/${product.id}/edit`}
@@ -502,7 +502,7 @@ export default function DashboardPage() {
                     <Button
                       asChild
                       variant="outline"
-                      className="border-[#424242] text-[#7a7a7a]"
+                      className="border-border text-muted-foreground"
                     >
                       <Link href="/dashboard/products">
                         Ver todos os produtos
@@ -514,9 +514,9 @@ export default function DashboardPage() {
             </Card>
           </TabsContent>
           <TabsContent value="activity" className="space-y-4 pt-4">
-            <Card className="bg-[#2A2A2A] border border-[#424242]">
+            <Card className="bg-card border border-border">
               <CardHeader>
-                <CardTitle className="font-medium text-[#A0A0A0]">
+                <CardTitle className="font-medium text-muted-foreground">
                   Atividade Recente
                 </CardTitle>
                 <CardDescription>
@@ -526,18 +526,18 @@ export default function DashboardPage() {
               <CardContent>
                 <div className="space-y-4">
                   {userProducts.length === 0 ? (
-                    <p className="text-center text-[#7a7a7a]">
+                    <p className="text-center text-muted-foreground">
                       Nenhuma atividade recente. Envie seu primeiro produto para
                       começar!
                     </p>
                   ) : (
                     <div className="space-y-4">
                       <div className="flex items-start gap-4">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#424242]">
-                          <ThumbsUp className="h-4 w-4 text-[#b17f01]" />
+                        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-muted">
+                          <ThumbsUp className="h-4 w-4 text-primary" />
                         </div>
                         <div className="flex-1 space-y-1">
-                          <p className="text-sm font-medium leading-none text-[#7A7A7A]">
+                          <p className="text-sm font-medium leading-none text-muted-foreground">
                             Seu produto recebeu um novo upvote
                           </p>
                           <p className="text-xs text-muted-foreground">
@@ -546,11 +546,11 @@ export default function DashboardPage() {
                         </div>
                       </div>
                       <div className="flex items-start gap-4">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#424242]">
-                          <MessageSquare className="h-4 w-4 text-[#b17f01]" />
+                        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-muted">
+                          <MessageSquare className="h-4 w-4 text-primary" />
                         </div>
                         <div className="flex-1 space-y-1">
-                          <p className="text-sm font-medium leading-none text-[#7A7A7A]">
+                          <p className="text-sm font-medium leading-none text-muted-foreground">
                             Novo comentário em seu produto
                           </p>
                           <p className="text-xs text-muted-foreground">
@@ -559,11 +559,11 @@ export default function DashboardPage() {
                         </div>
                       </div>
                       <div className="flex items-start gap-4">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#424242]">
-                          <Rocket className="h-4 w-4 text-[#b17f01]" />
+                        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-muted">
+                          <Rocket className="h-4 w-4 text-primary" />
                         </div>
                         <div className="flex-1 space-y-1">
-                          <p className="text-sm font-medium leading-none text-[#7A7A7A]">
+                          <p className="text-sm font-medium leading-none text-muted-foreground">
                             Seu produto foi aprovado
                           </p>
                           <p className="text-xs text-muted-foreground">

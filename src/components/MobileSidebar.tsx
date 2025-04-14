@@ -18,7 +18,7 @@ export function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
     <div className="lg:hidden">
       <Sheet open={isOpen} onOpenChange={onClose}>
         <SheetTrigger asChild>
-          <button className="fixed top-3 left-4 z-50 p-2 text-gray-500 rounded-md">
+          <button className="fixed top-3 left-4 z-50 p-2 text-muted-foreground rounded-md">
             ☰
           </button>
         </SheetTrigger>

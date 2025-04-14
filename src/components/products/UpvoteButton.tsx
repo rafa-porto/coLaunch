@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
@@ -11,7 +11,11 @@ interface UpvoteButtonProps {
   isLoggedIn: boolean;
 }
 
-export function UpvoteButton({ productId, hasUpvoted, isLoggedIn }: UpvoteButtonProps) {
+export function UpvoteButton({
+  productId,
+  hasUpvoted,
+  isLoggedIn,
+}: UpvoteButtonProps) {
   const [isUpvoted, setIsUpvoted] = useState(hasUpvoted);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -24,7 +28,7 @@ export function UpvoteButton({ productId, hasUpvoted, isLoggedIn }: UpvoteButton
     }
 
     setIsLoading(true);
-    
+
     try {
       const response = await fetch(`/api/products/${productId}/upvote`, {
         method: "POST",
@@ -32,14 +36,14 @@ export function UpvoteButton({ productId, hasUpvoted, isLoggedIn }: UpvoteButton
           "Content-Type": "application/json",
         },
       });
-      
+
       if (!response.ok) {
         throw new Error("Falha ao processar upvote");
       }
-      
+
       const data = await response.json();
       setIsUpvoted(data.hasUpvoted);
-      
+
       toast.success(data.hasUpvoted ? "Upvote adicionado!" : "Upvote removido");
       router.refresh();
     } catch (error) {
@@ -54,9 +58,11 @@ export function UpvoteButton({ productId, hasUpvoted, isLoggedIn }: UpvoteButton
     <Button
       onClick={handleUpvote}
       disabled={isLoading}
-      className={isUpvoted 
-        ? "w-full bg-[#b17f01] hover:bg-[#8a6401]" 
-        : "w-full bg-[#424242] hover:bg-[#525252]"}
+      className={
+        isUpvoted
+          ? "w-full bg-primary hover:bg-primary/90"
+          : "w-full bg-muted hover:bg-muted/80"
+      }
     >
       {isLoading ? "Processando..." : isUpvoted ? "Upvoted ⬆️" : "Upvote ⬆️"}
     </Button>

@@ -23,7 +23,7 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="flex min-h-screen bg-[#1a1a1a] dark:bg-[#030314]">
+    <div className="flex min-h-screen bg-background">
       <DashboardLayoutClient>{children}</DashboardLayoutClient>
     </div>
   );

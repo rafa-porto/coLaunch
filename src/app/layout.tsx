@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 
 import "./globals.css";
-import { Toaster } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
 import { Quicksand } from "next/font/google";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const quicksand = Quicksand({
   subsets: ["latin"],
@@ -30,8 +31,10 @@ export default function RootLayout({
         />
       </head>
       <body className="font-quicksand">
-        {children}
-        <Toaster />
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+          {children}
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );

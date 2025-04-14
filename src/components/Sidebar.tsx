@@ -7,16 +7,19 @@ import { NavigationSection } from "@/types/navigation";
 export const Sidebar = ({ isCollapsed }: { isCollapsed: boolean }) => {
   return (
     <aside
-      className={`bg-[#2a2a2a] border-r border-[#424242] h-screen transition-all duration-300 fixed left-0 top-0 z-0 ${
+      className={`bg-card border-r border-border h-screen transition-all duration-300 fixed left-0 top-0 z-0 ${
         isCollapsed ? "w-16" : "w-64"
       }`}
     >
-      <div className="p-4 py-2 border-b border-[#424242]">
+      <div className="p-4 py-2 border-b border-border">
         <div className="flex items-center h-12">
-          <Rocket className="w-6 h-6 text-[#b17f01]" />
+          <Rocket className="w-6 h-6 text-primary" />
           {!isCollapsed && (
-            <span className="text-2xl font-bold text-[#b17f01] ml-3">
-              co<span className="font-extralight text-[#7A7A7A]">Launch</span>
+            <span className="text-2xl font-bold text-primary ml-3">
+              co
+              <span className="font-extralight text-muted-foreground">
+                Launch
+              </span>
             </span>
           )}
         </div>
@@ -25,7 +28,7 @@ export const Sidebar = ({ isCollapsed }: { isCollapsed: boolean }) => {
         {navigationData.map((section) => (
           <div key={section.title} className="space-y-2">
             {!isCollapsed && (
-              <h3 className="px-4 text-xs font-semibold text-[#A0A0A0] uppercase tracking-wider">
+              <h3 className="px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                 {section.title}
               </h3>
             )}
