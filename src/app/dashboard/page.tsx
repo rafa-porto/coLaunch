@@ -12,17 +12,24 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   BarChart3,
   Calendar,
-  CreditCard,
-  DollarSign,
-  Download,
   Package,
   Settings,
-  ShoppingCart,
+  ThumbsUp,
+  MessageSquare,
+  Rocket,
+  Plus,
   Users,
 } from "lucide-react";
-import React from "react";
+// import { auth } from "@/lib/auth";
+// import { getUserProducts } from "@/db/utils";
+// import { redirect } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function DashboardPage() {
+  // Versão simplificada sem consultas ao banco de dados para evitar erros
+  const userProducts = [];
+
   const breadcrumbItems = [{ label: "Dashboard", href: "/dashboard" }];
 
   return (
@@ -36,23 +43,21 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between">
             <TabsList className="bg-[#2A2A2A] border border-[#424242]">
               <TabsTrigger value="overview" className="text-[#7A7A7A]">
-                Overview
+                Visão Geral
               </TabsTrigger>
-              <TabsTrigger value="analytics" className="text-[#7A7A7A]">
-                Analytics
+              <TabsTrigger value="products" className="text-[#7A7A7A]">
+                Meus Produtos
               </TabsTrigger>
-              <TabsTrigger value="reports" className="text-[#7A7A7A]">
-                Reports
+              <TabsTrigger value="activity" className="text-[#7A7A7A]">
+                Atividade
               </TabsTrigger>
             </TabsList>
             <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                className="h-8 bg-[#242424] border border-[#424242] text-[#7A7A7A] hover:bg-[#1d1d1d] hover:border-[#424242] hover:text-[#7A7A7A] cursor-pointer"
-              >
-                <Download className="mr-2 h-4 w-4" />
-                Download
+              <Button asChild className="bg-[#b17f01] hover:bg-[#8a6401]">
+                <Link href="/dashboard/products/new">
+                  <Plus className="mr-2 h-4 w-4" />
+                  Novo Produto
+                </Link>
               </Button>
             </div>
           </div>
@@ -61,60 +66,71 @@ export default function DashboardPage() {
               <Card className="bg-[#2A2A2A] border border-[#424242]">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium text-[#A0A0A0]">
-                    Total Revenue
+                    Meus Produtos
                   </CardTitle>
-                  <DollarSign className="h-4 w-4 text-muted-foreground" />
+                  <Package className="h-4 w-4 text-[#b17f01]" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-[#7A7A7A]">
-                    $45,231.89
+                    {userProducts.length}
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    +20.1% from last month
+                    Produtos enviados
                   </p>
                 </CardContent>
               </Card>
               <Card className="bg-[#2A2A2A] border border-[#424242]">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium text-[#A0A0A0]">
-                    Subscriptions
+                    Total de Upvotes
                   </CardTitle>
-                  <Users className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold text-[#7A7A7A]">+2350</div>
-                  <p className="text-xs text-muted-foreground">
-                    +180.1% from last month
-                  </p>
-                </CardContent>
-              </Card>
-              <Card className="bg-[#2A2A2A] border border-[#424242]">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-[#A0A0A0]">
-                    Sales
-                  </CardTitle>
-                  <CreditCard className="h-4 w-4 text-muted-foreground" />
+                  <ThumbsUp className="h-4 w-4 text-[#b17f01]" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-[#7A7A7A]">
-                    +12,234
+                    {userProducts.reduce(
+                      (total, product) => total + (product.upvoteCount || 0),
+                      0
+                    )}
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    +19% from last month
+                    Recebidos em seus produtos
                   </p>
                 </CardContent>
               </Card>
               <Card className="bg-[#2A2A2A] border border-[#424242]">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium text-[#A0A0A0]">
-                    Active Now
+                    Comentários
                   </CardTitle>
-                  <Users className="h-4 w-4 text-muted-foreground" />
+                  <MessageSquare className="h-4 w-4 text-[#b17f01]" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-[#7A7A7A]">+573</div>
+                  <div className="text-2xl font-bold text-[#7A7A7A]">
+                    {userProducts.reduce(
+                      (total, product) => total + (product.commentCount || 0),
+                      0
+                    )}
+                  </div>
                   <p className="text-xs text-muted-foreground">
-                    +201 since last hour
+                    Recebidos em seus produtos
+                  </p>
+                </CardContent>
+              </Card>
+              <Card className="bg-[#2A2A2A] border border-[#424242]">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium text-[#A0A0A0]">
+                    Status
+                  </CardTitle>
+                  <Rocket className="h-4 w-4 text-[#b17f01]" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-[#7A7A7A]">
+                    {userProducts.filter((p) => p.status === "approved").length}{" "}
+                    / {userProducts.length}
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Produtos aprovados
                   </p>
                 </CardContent>
               </Card>
@@ -403,32 +419,160 @@ export default function DashboardPage() {
               </Card>
             </div>
           </TabsContent>
-          <TabsContent value="analytics" className="space-y-4 pt-4">
+          <TabsContent value="products" className="space-y-4 pt-4">
             <Card className="bg-[#2A2A2A] border border-[#424242]">
-              <CardHeader>
-                <CardTitle>Analytics</CardTitle>
-                <CardDescription>
-                  View your analytics data and insights.
-                </CardDescription>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <div>
+                  <CardTitle className="font-medium text-[#A0A0A0]">
+                    Meus Produtos
+                  </CardTitle>
+                  <CardDescription>
+                    Gerencie seus produtos enviados
+                  </CardDescription>
+                </div>
+                <Button asChild className="bg-[#b17f01] hover:bg-[#8a6401]">
+                  <Link href="/dashboard/products/new">Novo Produto</Link>
+                </Button>
               </CardHeader>
               <CardContent>
-                <div className="h-[400px] w-full rounded-md border border-dashed flex items-center justify-center text-muted-foreground">
-                  Analytics charts will appear here
-                </div>
+                {userProducts.length === 0 ? (
+                  <div className="text-center py-8">
+                    <p className="text-[#7a7a7a] mb-4">
+                      Você ainda não enviou nenhum produto.
+                    </p>
+                    <Button asChild className="bg-[#b17f01] hover:bg-[#8a6401]">
+                      <Link href="/dashboard/products/new">
+                        Enviar meu primeiro produto
+                      </Link>
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {userProducts.slice(0, 4).map((product) => (
+                      <Card
+                        key={product.id}
+                        className="bg-[#242424] border-[#424242] overflow-hidden hover:border-[#b17f01] transition-all"
+                      >
+                        {product.thumbnail && (
+                          <div className="relative h-40 w-full">
+                            <Image
+                              src={product.thumbnail}
+                              alt={product.title}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
+                        )}
+                        <CardHeader className="py-3">
+                          <CardTitle className="text-white text-base">
+                            <Link
+                              href={`/products/${product.slug}`}
+                              className="hover:text-[#b17f01]"
+                            >
+                              {product.title}
+                            </Link>
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent className="py-2 flex justify-between items-center">
+                          <div className="flex items-center gap-2 text-[#7a7a7a]">
+                            <span>⬆️ {product.upvoteCount || 0}</span>
+                            <span>💬 {product.commentCount || 0}</span>
+                          </div>
+                          <div>
+                            <Button
+                              asChild
+                              size="sm"
+                              variant="outline"
+                              className="border-[#424242] text-[#7a7a7a]"
+                            >
+                              <Link
+                                href={`/dashboard/products/${product.id}/edit`}
+                              >
+                                Editar
+                              </Link>
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )}
+                {userProducts.length > 4 && (
+                  <div className="mt-4 text-center">
+                    <Button
+                      asChild
+                      variant="outline"
+                      className="border-[#424242] text-[#7a7a7a]"
+                    >
+                      <Link href="/dashboard/products">
+                        Ver todos os produtos
+                      </Link>
+                    </Button>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>
-          <TabsContent value="reports" className="space-y-4 pt-4">
+          <TabsContent value="activity" className="space-y-4 pt-4">
             <Card className="bg-[#2A2A2A] border border-[#424242]">
               <CardHeader>
-                <CardTitle>Reports</CardTitle>
+                <CardTitle className="font-medium text-[#A0A0A0]">
+                  Atividade Recente
+                </CardTitle>
                 <CardDescription>
-                  View and download your reports.
+                  Acompanhe as interações com seus produtos
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="h-[400px] w-full rounded-md border border-dashed flex items-center justify-center text-muted-foreground">
-                  Reports will appear here
+                <div className="space-y-4">
+                  {userProducts.length === 0 ? (
+                    <p className="text-center text-[#7a7a7a]">
+                      Nenhuma atividade recente. Envie seu primeiro produto para
+                      começar!
+                    </p>
+                  ) : (
+                    <div className="space-y-4">
+                      <div className="flex items-start gap-4">
+                        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#424242]">
+                          <ThumbsUp className="h-4 w-4 text-[#b17f01]" />
+                        </div>
+                        <div className="flex-1 space-y-1">
+                          <p className="text-sm font-medium leading-none text-[#7A7A7A]">
+                            Seu produto recebeu um novo upvote
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            Há 2 dias
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-4">
+                        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#424242]">
+                          <MessageSquare className="h-4 w-4 text-[#b17f01]" />
+                        </div>
+                        <div className="flex-1 space-y-1">
+                          <p className="text-sm font-medium leading-none text-[#7A7A7A]">
+                            Novo comentário em seu produto
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            Há 3 dias
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-4">
+                        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#424242]">
+                          <Rocket className="h-4 w-4 text-[#b17f01]" />
+                        </div>
+                        <div className="flex-1 space-y-1">
+                          <p className="text-sm font-medium leading-none text-[#7A7A7A]">
+                            Seu produto foi aprovado
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            Há 1 semana
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>

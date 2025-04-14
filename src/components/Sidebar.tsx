@@ -1,7 +1,7 @@
 import React from "react";
 import MenuItem from "@/components/MenuItem";
 import { navigationData } from "@/data/navigation";
-import { Banana } from "lucide-react";
+import { Rocket } from "lucide-react";
 import { NavigationSection } from "@/types/navigation";
 
 export const Sidebar = ({ isCollapsed }: { isCollapsed: boolean }) => {
@@ -13,10 +13,10 @@ export const Sidebar = ({ isCollapsed }: { isCollapsed: boolean }) => {
     >
       <div className="p-4 py-2 border-b border-[#424242]">
         <div className="flex items-center h-12">
-          <Banana name="shopping-bag" className="w-6 h-6 text-[#7A7A7A]" />
+          <Rocket className="w-6 h-6 text-[#b17f01]" />
           {!isCollapsed && (
-            <span className="text-2xl font-bold text-[#7A7A7A] ml-3">
-              Nextjs<span className="font-extralight">BetterAuth</span>
+            <span className="text-2xl font-bold text-[#b17f01] ml-3">
+              co<span className="font-extralight text-[#7A7A7A]">Launch</span>
             </span>
           )}
         </div>
