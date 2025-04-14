@@ -12,9 +12,10 @@ const quicksand = Quicksand({
 });
 
 export const metadata: Metadata = {
-  title: "coLaunch - Descubra e compartilhe produtos digitais",
+  title: "coLaunch - Discover and share digital products created by developers and makers",
   description:
-    "Uma plataforma para criadores e desenvolvedores publicarem, divulgarem e receberem feedback sobre seus produtos e projetos.",
+    "A platform for creators and developers to publish, promote and receive feedback on their products and projects.",
+  keywords: ["coLaunch", "Product Hunt", "Product Discovery", "Product Sharing"],
 };
 
 export default function RootLayout({

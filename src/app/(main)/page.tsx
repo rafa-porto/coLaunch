@@ -50,20 +50,20 @@ export default function Home() {
           </h1>
 
           <p className="text-xl text-muted-foreground max-w-xl mx-auto">
-            Descubra, compartilhe e vote nos melhores produtos digitais criados
-            por desenvolvedores e makers.
+            Discover, share and vote on the best digital products created by
+            developers and makers.
           </p>
 
           <div className="flex justify-center gap-4">
             <Button asChild className="bg-primary hover:bg-primary/90">
-              <Link href="/products">Explorar Produtos</Link>
+              <Link href="/products">Explore Products</Link>
             </Button>
             <Button
               asChild
               variant="outline"
               className="border-border text-muted-foreground hover:bg-muted"
             >
-              <Link href="/dashboard/products/new">Enviar Produto</Link>
+              <Link href="/dashboard/products/new">Send Product</Link>
             </Button>
           </div>
         </div>
@@ -71,23 +71,23 @@ export default function Home() {
         {/* Featured Products */}
         <section className="mt-20">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold">Em Destaque</h2>
+            <h2 className="text-2xl font-bold">Featured</h2>
             <Link
               href="/products?featured=true"
               className="text-primary hover:underline"
             >
-              Ver todos
+              See all
             </Link>
           </div>
 
           {featuredProducts.length === 0 ? (
             <div className="bg-card border border-border rounded-lg p-8 text-center">
               <p className="text-muted-foreground mb-4">
-                Nenhum produto em destaque no momento.
+                No products featured at the moment.
               </p>
               <Button asChild className="bg-primary hover:bg-primary/90">
                 <Link href="/dashboard/products/new">
-                  Seja o primeiro a enviar um produto
+                  Be the first to send a product
                 </Link>
               </Button>
             </div>
@@ -150,20 +150,20 @@ export default function Home() {
         {/* Recent Products */}
         <section className="mt-20 mb-20">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold">Recentes</h2>
+            <h2 className="text-2xl font-bold">Recent</h2>
             <Link href="/products" className="text-primary hover:underline">
-              Ver todos
+              See all
             </Link>
           </div>
 
           {recentProducts.length === 0 ? (
             <div className="bg-card border border-border rounded-lg p-8 text-center">
               <p className="text-muted-foreground mb-4">
-                Nenhum produto adicionado recentemente.
+                No products added recently.
               </p>
               <Button asChild className="bg-primary hover:bg-primary/90">
                 <Link href="/dashboard/products/new">
-                  Adicione o primeiro produto
+                  Add your first product
                 </Link>
               </Button>
             </div>
