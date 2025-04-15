@@ -72,7 +72,7 @@ export default function Navbar() {
       icon: <Star className="h-4 w-4 mr-2" />,
     },
     {
-      href: "/dashboard/products/new",
+      href: "/submit-product",
       label: "Submit Product",
       icon: <Package className="h-4 w-4 mr-2" />,
     },
@@ -177,7 +177,7 @@ export default function Navbar() {
                     </DropdownMenuItem>
                     <DropdownMenuItem className="hover:bg-muted cursor-pointer hover:text-foreground">
                       <Link
-                        href="/dashboard/settings"
+                        href="/profile"
                         className="flex w-full items-center"
                       >
                         <Settings className="h-4 w-4 mr-2" />

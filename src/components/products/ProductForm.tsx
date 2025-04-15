@@ -105,7 +105,7 @@ export function ProductForm({
           ? "Produto atualizado com sucesso!"
           : "Produto criado com sucesso!"
       );
-      router.push("/dashboard/products");
+      router.push("/profile");
       router.refresh();
     } catch (error) {
       toast.error(
@@ -286,7 +286,7 @@ export function ProductForm({
           type="button"
           variant="outline"
           className="border-border text-muted-foreground"
-          onClick={() => router.push("/dashboard/products")}
+          onClick={() => router.push("/profile")}
         >
           Cancelar
         </Button>

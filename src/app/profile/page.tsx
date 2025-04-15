@@ -258,7 +258,7 @@ export default async function ProfilePage() {
               </TabsList>
 
               <Button asChild className="bg-primary hover:bg-primary/90">
-                <Link href="/dashboard/products/new">New Product</Link>
+                <Link href="/submit-product">New Product</Link>
               </Button>
             </div>
 
@@ -267,9 +267,11 @@ export default async function ProfilePage() {
                 {userProducts.length === 0 ? (
                   <div className="col-span-full text-center py-12 bg-card border border-border rounded-lg">
                     <Package className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                    <p className="text-muted-foreground mb-4">You haven't sent any products yet.</p>
+                    <p className="text-muted-foreground mb-4">
+                      You haven't sent any products yet.
+                    </p>
                     <Button asChild className="bg-primary hover:bg-primary/90">
-                      <Link href="/dashboard/products/new">
+                      <Link href="/submit-product">
                         Send your first product
                       </Link>
                     </Button>
@@ -335,72 +337,23 @@ export default async function ProfilePage() {
             <TabsContent value="activity" className="space-y-6">
               <Card className="bg-card border border-border">
                 <CardHeader>
-                  <CardTitle>Recent Activity</CardTitle>
+                  <CardTitle>Recent Activities</CardTitle>
                   <CardDescription>
                     Recent actions and interactions from the user
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-8">
-                    <div className="flex gap-4">
-                      <div className="bg-primary/10 p-2 rounded-full h-10 w-10 flex items-center justify-center">
-                        <ThumbsUp className="h-5 w-5 text-primary" />
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-foreground">
-                          Você recebeu um upvote em{" "}
-                          <Link
-                            href="/products/devtracker"
-                            className="text-primary hover:underline"
-                          >
-                            DevTracker
-                          </Link>
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          Há 2 dias
-                        </p>
-                      </div>
+                  <div className="text-center py-12">
+                    <div className="bg-primary/10 p-4 rounded-full h-20 w-20 flex items-center justify-center mx-auto mb-4">
+                      <Package className="h-10 w-10 text-primary" />
                     </div>
-
-                    <div className="flex gap-4">
-                      <div className="bg-primary/10 p-2 rounded-full h-10 w-10 flex items-center justify-center">
-                        <MessageSquare className="h-5 w-5 text-primary" />
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-foreground">
-                          Novo comentário em{" "}
-                          <Link
-                            href="/products/codesnippet"
-                            className="text-primary hover:underline"
-                          >
-                            CodeSnippet
-                          </Link>
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          Há 5 dias
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex gap-4">
-                      <div className="bg-primary/10 p-2 rounded-full h-10 w-10 flex items-center justify-center">
-                        <Package className="h-5 w-5 text-primary" />
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-foreground">
-                          Você adicionou{" "}
-                          <Link
-                            href="/products/designsystem"
-                            className="text-primary hover:underline"
-                          >
-                            DesignSystem
-                          </Link>
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          Há 2 semanas
-                        </p>
-                      </div>
-                    </div>
+                    <h3 className="text-lg font-medium text-foreground mb-2">
+                      No recent activities
+                    </h3>
+                    <p className="text-muted-foreground max-w-md mx-auto">
+                      When you interact with products, receive upvotes, or
+                      comments, your activities will appear here.
+                    </p>
                   </div>
                 </CardContent>
               </Card>
@@ -425,12 +378,12 @@ export default async function ProfilePage() {
 
                   <div>
                     <h3 className="text-lg font-medium text-foreground mb-2">
-                      Informações
+                      Info
                     </h3>
                     <dl className="space-y-2">
                       <div className="flex flex-col sm:flex-row">
                         <dt className="text-muted-foreground w-32">
-                          Membro desde
+                          Member Since
                         </dt>
                         <dd className="text-foreground">
                           {user?.createdAt

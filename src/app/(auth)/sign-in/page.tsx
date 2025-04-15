@@ -134,7 +134,7 @@ export default function Login() {
         <div className="flex flex-col items-center">
           <div className="flex items-center gap-2 text-xl font-semibold text-muted-foreground">
             <AirVent className="h-6 w-6 text-muted-foreground" />
-            Next / Drizzle / Better-auth.
+            coLaunch
           </div>
         </div>
 

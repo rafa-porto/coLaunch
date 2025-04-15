@@ -83,7 +83,7 @@ export default function ProductsPage({
                 {featured ? "Produtos em Destaque" : "Todos os Produtos"}
               </h1>
               <Button asChild className="bg-primary hover:bg-primary/90">
-                <Link href="/dashboard/products/new">Enviar Produto</Link>
+                <Link href="/submit-product">Enviar Produto</Link>
               </Button>
             </div>
 

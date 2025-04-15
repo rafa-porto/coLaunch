@@ -1,38 +1,9 @@
-import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-// import { auth } from "@/lib/auth";
-// import { getAllCategories } from "@/db/utils";
-// import { redirect } from "next/navigation";
-import { ProductForm } from "@/components/products/ProductForm";
+import { redirect } from "next/navigation";
 
 export default function NewProductPage() {
-  // Versão simplificada sem consultas ao banco de dados para evitar erros
-  const categories = [];
-
-  const breadcrumbItems = [
-    { label: "Dashboard", href: "/dashboard" },
-    { label: "Meus Produtos", href: "/dashboard/products" },
-    { label: "Novo Produto", href: "/dashboard/products/new" },
-  ];
-
-  return (
-    <div className="container mx-auto px-6 md:px-0 pb-8">
-      <div className="mb-2">
-        <Breadcrumbs items={breadcrumbItems} />
-      </div>
-
-      <main className="flex-1 p-0 pt-4">
-        <Card className="bg-card border border-border">
-          <CardHeader>
-            <CardTitle className="font-medium text-muted-foreground">
-              Novo Produto
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ProductForm categories={categories} />
-          </CardContent>
-        </Card>
-      </main>
-    </div>
-  );
+  // Redirecionar para a página de perfil
+  redirect("/profile");
+  
+  // Este código nunca será executado devido ao redirecionamento
+  return null;
 }

@@ -63,7 +63,7 @@ export default function Home() {
               variant="outline"
               className="border-border text-muted-foreground hover:bg-muted"
             >
-              <Link href="/dashboard/products/new">Send Product</Link>
+              <Link href="/submit-product">Send Product</Link>
             </Button>
           </div>
         </div>
@@ -86,7 +86,7 @@ export default function Home() {
                 No products featured at the moment.
               </p>
               <Button asChild className="bg-primary hover:bg-primary/90">
-                <Link href="/dashboard/products/new">
+                <Link href="/submit-product">
                   Be the first to send a product
                 </Link>
               </Button>
@@ -162,9 +162,7 @@ export default function Home() {
                 No products added recently.
               </p>
               <Button asChild className="bg-primary hover:bg-primary/90">
-                <Link href="/dashboard/products/new">
-                  Add your first product
-                </Link>
+                <Link href="/submit-product">Add your first product</Link>
               </Button>
             </div>
           ) : (
