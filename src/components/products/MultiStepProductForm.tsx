@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { SuccessMessage } from "./SuccessMessage";
+import { useFormStep } from "@/hooks/useFormStep";
 
 interface MultiStepProductFormProps {
   categories: Category[];
@@ -32,9 +33,21 @@ export function MultiStepProductForm({
   product,
   isEdit = false,
 }: MultiStepProductFormProps) {
-  // State to control the current step
-  const [currentStep, setCurrentStep] = useState(1);
-  const totalSteps = 4;
+  // Use the form step hook for step management
+  const {
+    currentStep,
+    totalSteps,
+    nextStep: goToNextStep,
+    prevStep: goToPrevStep,
+    setCurrentStep,
+  } = useFormStep();
+
+  // Reset step when component unmounts
+  useEffect(() => {
+    return () => {
+      setCurrentStep(1);
+    };
+  }, [setCurrentStep]);
 
   // Form state
   const [formData, setFormData] = useState<ProductFormData>({
@@ -76,20 +89,18 @@ export function MultiStepProductForm({
 
   // Function to advance to the next step
   const nextStep = () => {
-    if (currentStep < totalSteps && isStepComplete(currentStep)) {
-      setCurrentStep(currentStep + 1);
+    if (isStepComplete(currentStep)) {
+      goToNextStep();
       window.scrollTo(0, 0);
-    } else if (!isStepComplete(currentStep)) {
+    } else {
       toast.error("Please fill in all required fields.");
     }
   };
 
   // Function to go back to the previous step
   const prevStep = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
-      window.scrollTo(0, 0);
-    }
+    goToPrevStep();
+    window.scrollTo(0, 0);
   };
 
   // Event handlers
@@ -186,7 +197,9 @@ export function MultiStepProductForm({
   // Progress bar
   const ProgressBar = () => (
     <div className="mb-8">
-      <div className="flex justify-between mb-2">
+      <div className="flex justify-between mb-2 relative">
+        {/* Connecting line */}
+        <div className="absolute top-4 left-0 right-0 h-0.5 bg-muted -z-10" />
         {Array.from({ length: totalSteps }).map((_, index) => {
           const stepNumber = index + 1;
           const isActive = currentStep === stepNumber;
@@ -199,18 +212,18 @@ export function MultiStepProductForm({
               className={`flex flex-col items-center ${isActive ? "text-primary" : isCompleted ? "text-primary/70" : "text-muted-foreground"}`}
             >
               <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center mb-1
+                className={`w-8 h-8 rounded-full flex items-center justify-center mb-1 border-2 transition-all duration-300
                   ${
                     isActive
-                      ? "bg-primary text-primary-foreground"
+                      ? "bg-primary border-primary text-primary-foreground shadow-md"
                       : isCompleted
-                        ? "bg-primary/20 text-primary"
-                        : "bg-muted text-muted-foreground"
+                        ? "bg-primary/20 border-primary text-primary"
+                        : "bg-background border-muted text-muted-foreground"
                   }`}
               >
                 {isCompleted ? <Check className="h-4 w-4" /> : stepNumber}
               </div>
-              <span className="text-xs hidden sm:block">
+              <span className="text-xs hidden sm:block font-medium">
                 {stepNumber === 1 && "Basic"}
                 {stepNumber === 2 && "Description"}
                 {stepNumber === 3 && "Links"}
@@ -220,9 +233,9 @@ export function MultiStepProductForm({
           );
         })}
       </div>
-      <div className="w-full bg-muted h-2 rounded-full overflow-hidden">
+      <div className="w-full bg-muted h-2 rounded-full overflow-hidden mt-4">
         <div
-          className="bg-primary h-full transition-all duration-300"
+          className="bg-primary h-full transition-all duration-500 ease-in-out"
           style={{ width: `${(currentStep / totalSteps) * 100}%` }}
         />
       </div>
@@ -343,7 +356,7 @@ export function MultiStepProductForm({
 
             <div>
               <Label htmlFor="categoryId" className="text-foreground">
-                Categoria
+                Category
               </Label>
               <select
                 id="categoryId"
@@ -487,7 +500,7 @@ export function MultiStepProductForm({
     }
   };
 
-  // Se o produto foi enviado com sucesso, mostrar a mensagem de sucesso
+  // If the product was successfully submitted, show the success message
   if (isSuccess) {
     return (
       <Card className="bg-card border border-border">
@@ -505,9 +518,15 @@ export function MultiStepProductForm({
     <form onSubmit={handleSubmit} className="space-y-6">
       <ProgressBar />
 
-      <Card className="bg-card border border-border">
-        <CardContent className="pt-6">{renderStep()}</CardContent>
-      </Card>
+      <div className="relative overflow-hidden">
+        <Card className="bg-card border border-border">
+          <CardContent className="pt-6">
+            <div className="transition-all duration-300 ease-in-out">
+              {renderStep()}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
       <div className="flex justify-between mt-8">
         <Button
