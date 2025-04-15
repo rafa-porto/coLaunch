@@ -4,8 +4,8 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-  CardFooter,
 } from "@/components/ui/card";
+import { ProductCard } from "@/components/products/ProductCard";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { auth } from "@/lib/auth";
@@ -268,7 +268,7 @@ export default async function ProfilePage() {
                   <div className="col-span-full text-center py-12 bg-card border border-border rounded-lg">
                     <Package className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
                     <p className="text-muted-foreground mb-4">
-                      You haven't sent any products yet.
+                      You haven&apos;t sent any products yet.
                     </p>
                     <Button asChild className="bg-primary hover:bg-primary/90">
                       <Link href="/submit-product">
@@ -278,57 +278,7 @@ export default async function ProfilePage() {
                   </div>
                 ) : (
                   userProducts.map((product) => (
-                    <Card
-                      key={product.id}
-                      className="bg-card border-border overflow-hidden hover:border-primary transition-all hover:shadow-md"
-                    >
-                      {product.thumbnail && (
-                        <div className="relative h-48 w-full">
-                          <Image
-                            src={product.thumbnail}
-                            alt={product.title}
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
-                      )}
-                      <CardHeader>
-                        <CardTitle className="text-foreground">
-                          <Link
-                            href={`/products/${product.slug}`}
-                            className="hover:text-primary"
-                          >
-                            {product.title}
-                          </Link>
-                        </CardTitle>
-                        <CardDescription className="text-muted-foreground">
-                          {product.tagline}
-                        </CardDescription>
-                      </CardHeader>
-                      <CardFooter className="flex justify-between items-center pt-0">
-                        <div className="flex items-center gap-4 text-muted-foreground">
-                          <div className="flex items-center gap-1">
-                            <ThumbsUp className="h-4 w-4" />
-                            <span>{product.upvoteCount}</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <MessageSquare className="h-4 w-4" />
-                            <span>{product.commentCount}</span>
-                          </div>
-                        </div>
-                        <Button
-                          asChild
-                          size="sm"
-                          variant="outline"
-                          className="border-border text-muted-foreground hover:text-foreground"
-                        >
-                          <Link href={`/dashboard/products/${product.id}/edit`}>
-                            <Edit className="h-3 w-3 mr-1" />
-                            Edit
-                          </Link>
-                        </Button>
-                      </CardFooter>
-                    </Card>
+                    <ProductCard key={product.id} product={product} />
                   ))
                 )}
               </div>

@@ -29,45 +29,82 @@ export default async function SubmitProductPage() {
   return (
     <>
       <SubmitProductHeader />
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-muted/30 border border-border rounded-lg p-4 mb-6 flex items-start gap-3">
-            <div className="bg-primary/10 p-2 rounded-full">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-primary"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 16v-4" />
-                <path d="M12 8h.01" />
-              </svg>
-            </div>
-            <div>
-              <h3 className="font-medium text-foreground mb-1">
-                Tips for a good submission
-              </h3>
-              <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
-                <li>Choose a clear and descriptive title</li>
-                <li>
-                  Add an attractive tagline that explains your product in one
-                  sentence
-                </li>
-                <li>Provide a detailed description with the main features</li>
-                <li>Add relevant tags to help with discovery</li>
-                <li>Include a high-quality image to showcase your product</li>
-              </ul>
-            </div>
+      <div className="min-h-screen bg-background">
+        <div className="absolute inset-0 overflow-hidden">
+          {/* Subtle gradient background */}
+          <div className="absolute top-0 left-0 w-[800px] h-[600px] opacity-10">
+            <div className="w-full h-full bg-gradient-to-br from-primary/20 via-transparent to-transparent blur-3xl"></div>
           </div>
+          {/* Subtle dots overlay */}
+          <div className="absolute inset-0 dark:bg-[radial-gradient(#ffffff10_1px,transparent_1px)] bg-[radial-gradient(#00000010_1px,transparent_1px)] [background-size:16px_16px]" />
+        </div>
 
-          <MultiStepProductForm categories={categories} />
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 relative">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-card/80 backdrop-blur-sm border border-border rounded-xl p-5 mb-8 flex items-start gap-4 shadow-sm">
+              <div className="bg-primary/10 p-2.5 rounded-full flex-shrink-0">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="text-primary"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M12 16v-4" />
+                  <path d="M12 8h.01" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="font-medium text-foreground mb-2 text-lg">
+                  Tips for a successful submission
+                </h3>
+                <ul className="text-sm text-muted-foreground space-y-2">
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary">•</span>
+                    <span>
+                      Choose a clear and descriptive title that stands out
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary">•</span>
+                    <span>
+                      Add an attractive tagline that explains your product in
+                      one sentence
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary">•</span>
+                    <span>
+                      Provide a detailed description highlighting the main
+                      features and benefits
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary">•</span>
+                    <span>
+                      Add relevant tags to help with discovery and
+                      categorization
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary">•</span>
+                    <span>
+                      Include a high-quality image to showcase your product and
+                      attract attention
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <MultiStepProductForm categories={categories} />
+          </div>
         </div>
       </div>
     </>

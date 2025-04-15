@@ -1,12 +1,20 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { Category } from "@/db/types";
-import { Check, ChevronDown, Search, RefreshCw } from "lucide-react";
+import { Check, ChevronDown, Search, RefreshCw, Layers } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 
 interface CategorySelectorProps {
   categories: Category[];
@@ -22,9 +30,8 @@ export function CategorySelector({
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isSeeding, setIsSeeding] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
 
-  // Função para executar o seed de categorias
+  // Function to seed categories
   const seedCategories = async () => {
     try {
       setIsSeeding(true);
@@ -40,7 +47,7 @@ export function CategorySelector({
 
       if (response.ok) {
         toast.success(data.message);
-        // Recarregar a página para mostrar as novas categorias
+        // Reload the page to show the new categories
         window.location.reload();
       } else {
         toast.error(data.error || "Failed to seed categories");
@@ -53,15 +60,7 @@ export function CategorySelector({
     }
   };
 
-  // Log para depuração
-  console.log("CategorySelector received categories:", categories);
-
-  // Verificar se categories é um array válido
-  if (!Array.isArray(categories) || categories.length === 0) {
-    console.warn("No categories available or invalid categories array");
-  }
-
-  // Garantir que categories é um array válido
+  // Ensure categories is a valid array
   const validCategories = Array.isArray(categories) ? categories : [];
 
   // Group categories by type based on their name
@@ -161,61 +160,52 @@ export function CategorySelector({
       )
     : [];
 
-  // Add event listener for closing dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
-
-    // Add a scroll listener to close dropdown when scrolling
-    const handleScroll = () => {
-      setIsOpen(false);
-    };
-
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-      window.addEventListener("scroll", handleScroll);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [isOpen]);
-
   return (
-    <div className="relative" ref={containerRef}>
+    <div>
+      {/* Trigger button */}
       <Button
         type="button"
         variant="outline"
         role="combobox"
-        aria-expanded={isOpen}
         className={cn(
-          "w-full justify-between bg-background border-border text-foreground h-10 px-3 py-2",
+          "w-full justify-between bg-background border-border text-foreground h-10 px-3 py-2 transition-all duration-300",
           selectedCategory
             ? "border-primary/50 shadow-sm"
             : "text-muted-foreground"
         )}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsOpen(true)}
       >
-        {selectedCategory ? selectedCategory.name : "Select a category"}
+        <div className="flex items-center gap-2 overflow-hidden">
+          {selectedCategory ? (
+            <>
+              <div className="bg-primary/10 p-1 rounded-full">
+                <Layers className="h-3.5 w-3.5 text-primary" />
+              </div>
+              <span className="truncate">{selectedCategory.name}</span>
+            </>
+          ) : (
+            <span className="text-muted-foreground">Select a category</span>
+          )}
+        </div>
         <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
       </Button>
 
-      {isOpen && (
-        <div
-          className="absolute z-50 mt-1 w-full rounded-md border border-border bg-background shadow-md overflow-hidden"
-          style={{
-            maxHeight: "300px",
-          }}
-        >
-          <div className="sticky top-0 z-10 bg-background p-2 border-b border-border">
-            <div className="flex items-center border border-border rounded-md px-3 py-1.5 bg-muted/30 focus-within:border-primary/50 focus-within:bg-background transition-colors">
+      {/* Category selection modal */}
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogContent className="sm:max-w-[550px] max-h-[85vh] overflow-hidden flex flex-col">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Layers className="h-5 w-5 text-primary" />
+              Select a Category
+            </DialogTitle>
+            <DialogDescription>
+              Choose the category that best fits your product.
+            </DialogDescription>
+          </DialogHeader>
+
+          {/* Search bar */}
+          <div className="sticky top-0 z-10 bg-background py-3 border-b border-border">
+            <div className="flex items-center border border-border rounded-md px-3 py-2 bg-muted/30 focus-within:border-primary/50 focus-within:bg-background transition-colors">
               <Search className="h-4 w-4 text-primary/70 mr-2 flex-shrink-0" />
               <Input
                 placeholder="Search categories..."
@@ -226,9 +216,10 @@ export function CategorySelector({
             </div>
           </div>
 
-          <div className="overflow-y-auto max-h-[250px] p-2">
+          {/* Categories list */}
+          <div className="overflow-y-auto flex-1 p-2">
             {validCategories.length === 0 ? (
-              <div className="px-3 py-4 text-sm text-muted-foreground text-center">
+              <div className="px-3 py-6 text-sm text-muted-foreground text-center">
                 <div className="mb-2 text-primary/70">
                   No categories available
                 </div>
@@ -256,12 +247,12 @@ export function CategorySelector({
               </div>
             ) : searchQuery ? (
               filteredCategories.length > 0 ? (
-                <div className="space-y-1.5">
+                <div className="space-y-1.5 p-2">
                   {filteredCategories.map((category) => (
                     <button
                       key={category.id}
                       className={cn(
-                        "flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium",
+                        "flex w-full items-center justify-between rounded-md px-4 py-3 text-sm font-medium transition-all duration-200",
                         selectedCategoryId === category.id
                           ? "bg-primary/15 text-primary font-semibold shadow-sm border border-primary/20"
                           : "hover:bg-muted hover:text-foreground"
@@ -272,55 +263,73 @@ export function CategorySelector({
                         setSearchQuery("");
                       }}
                     >
-                      {category.name}
+                      <div className="flex items-center gap-2">
+                        <div className="bg-primary/10 p-1 rounded-full">
+                          <Layers className="h-3.5 w-3.5 text-primary" />
+                        </div>
+                        {category.name}
+                      </div>
                       {selectedCategoryId === category.id && (
-                        <Check className="h-4 w-4" />
+                        <Check className="h-4 w-4 text-primary" />
                       )}
                     </button>
                   ))}
                 </div>
               ) : (
-                <div className="px-3 py-2 text-sm text-muted-foreground">
-                  No categories found
+                <div className="px-3 py-6 text-sm text-muted-foreground text-center">
+                  No categories found matching &ldquo;{searchQuery}&rdquo;
                 </div>
               )
             ) : (
-              sortedGroups.map((group) => (
-                <div
-                  key={group}
-                  className="mb-5 last:mb-0 pb-2 border-b border-border last:border-0"
-                >
-                  <div className="px-3 py-2 text-xs font-semibold text-primary/80 bg-muted/70 rounded-md mb-2 uppercase tracking-wider">
-                    {group}
+              <div className="p-2">
+                {sortedGroups.map((group) => (
+                  <div
+                    key={group}
+                    className="mb-5 last:mb-0 pb-2 border-b border-border last:border-0"
+                  >
+                    <div className="px-3 py-2 text-xs font-semibold text-primary/80 bg-muted/70 rounded-md mb-2 uppercase tracking-wider">
+                      {group}
+                    </div>
+                    <div className="space-y-1.5">
+                      {groupedCategories[group].map((category) => (
+                        <button
+                          key={category.id}
+                          className={cn(
+                            "flex w-full items-center justify-between rounded-md px-4 py-3 text-sm font-medium transition-all duration-200",
+                            selectedCategoryId === category.id
+                              ? "bg-primary/15 text-primary font-semibold shadow-sm border border-primary/20"
+                              : "hover:bg-muted hover:text-foreground"
+                          )}
+                          onClick={() => {
+                            onChange(category.id);
+                            setIsOpen(false);
+                          }}
+                        >
+                          <div className="flex items-center gap-2">
+                            <div className="bg-primary/10 p-1 rounded-full">
+                              <Layers className="h-3.5 w-3.5 text-primary" />
+                            </div>
+                            {category.name}
+                          </div>
+                          {selectedCategoryId === category.id && (
+                            <Check className="h-4 w-4 text-primary" />
+                          )}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                  <div className="space-y-1.5">
-                    {groupedCategories[group].map((category) => (
-                      <button
-                        key={category.id}
-                        className={cn(
-                          "flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium",
-                          selectedCategoryId === category.id
-                            ? "bg-primary/15 text-primary font-semibold shadow-sm border border-primary/20"
-                            : "hover:bg-muted hover:text-foreground"
-                        )}
-                        onClick={() => {
-                          onChange(category.id);
-                          setIsOpen(false);
-                        }}
-                      >
-                        {category.name}
-                        {selectedCategoryId === category.id && (
-                          <Check className="h-4 w-4" />
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ))
+                ))}
+              </div>
             )}
           </div>
-        </div>
-      )}
+
+          <DialogFooter className="border-t border-border pt-4 mt-2">
+            <Button variant="outline" onClick={() => setIsOpen(false)}>
+              Cancel
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
