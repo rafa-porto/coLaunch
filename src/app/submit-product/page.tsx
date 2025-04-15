@@ -20,6 +20,12 @@ export default async function SubmitProductPage() {
   // Buscar categorias
   const categories = await getAllCategories();
 
+  // Log para depuração
+  console.log(
+    `Loaded ${categories.length} categories:`,
+    categories.map((c) => ({ id: c.id, name: c.name, slug: c.slug }))
+  );
+
   return (
     <>
       <SubmitProductHeader />

@@ -18,7 +18,7 @@ export function SubmitProductHeader() {
       case 2:
         return "Product Description";
       case 3:
-        return "Links & Category";
+        return "Category & Links";
       case 4:
         return "Tags & Images";
       default:

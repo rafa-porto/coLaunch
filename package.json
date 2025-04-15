@@ -11,6 +11,8 @@
     "db:pull": "npx drizzle-kit pull",
     "db:run-migrations": "node src/db/migrations/run-migrations.js",
     "db:monitor": "node src/scripts/monitor-db-connections.js",
+    "db:seed-categories": "tsx src/scripts/seed-categories.ts",
+    "db:check-categories": "tsx src/scripts/check-categories.ts",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

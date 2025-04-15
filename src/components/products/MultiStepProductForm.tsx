@@ -17,10 +17,13 @@ import {
   Link as LinkIcon,
   Tag,
   Image as ImageIcon,
+  Layers,
+  RefreshCw,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { SuccessMessage } from "./SuccessMessage";
 import { useFormStep } from "@/hooks/useFormStep";
+import { CategorySelector } from "./CategorySelector";
 
 interface MultiStepProductFormProps {
   categories: Category[];
@@ -65,10 +68,40 @@ export function MultiStepProductForm({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [tagInput, setTagInput] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isSeeding, setIsSeeding] = useState(false);
   const [submittedProduct, setSubmittedProduct] = useState<{
     title: string;
     slug?: string;
   }>({ title: "" });
+
+  // Função para executar o seed de categorias
+  const seedCategories = async () => {
+    try {
+      setIsSeeding(true);
+
+      const response = await fetch("/api/admin/seed-categories", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast.success(data.message);
+        // Recarregar a página para mostrar as novas categorias
+        window.location.reload();
+      } else {
+        toast.error(data.error || "Failed to seed categories");
+      }
+    } catch (error) {
+      console.error("Error seeding categories:", error);
+      toast.error("An error occurred while seeding categories");
+    } finally {
+      setIsSeeding(false);
+    }
+  };
   const router = useRouter();
 
   // Function to check if the current step is complete
@@ -78,8 +111,8 @@ export function MultiStepProductForm({
         return !!formData.title.trim() && !!formData.tagline.trim();
       case 2: // Description
         return !!formData.description.trim();
-      case 3: // Links and category
-        return true; // Optional
+      case 3: // Category & Links
+        return !!formData.categoryId; // Category is required
       case 4: // Tags and images
         return true; // Optional
       default:
@@ -137,7 +170,8 @@ export function MultiStepProductForm({
     if (
       !formData.title.trim() ||
       !formData.tagline.trim() ||
-      !formData.description.trim()
+      !formData.description.trim() ||
+      !formData.categoryId
     ) {
       toast.error("Please fill in all required fields");
       return;
@@ -320,61 +354,99 @@ export function MultiStepProductForm({
         return (
           <div className="space-y-4">
             <div className="flex items-center gap-2 mb-6">
-              <LinkIcon className="h-5 w-5 text-primary" />
-              <h2 className="text-xl font-medium">Links and Category</h2>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="websiteUrl" className="text-foreground">
-                  Website
-                </Label>
-                <Input
-                  id="websiteUrl"
-                  name="websiteUrl"
-                  value={formData.websiteUrl}
-                  onChange={handleChange}
-                  className="bg-background border-border text-foreground"
-                  placeholder="https://yourwebsite.com"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="githubUrl" className="text-foreground">
-                  GitHub
-                </Label>
-                <Input
-                  id="githubUrl"
-                  name="githubUrl"
-                  value={formData.githubUrl}
-                  onChange={handleChange}
-                  className="bg-background border-border text-foreground"
-                  placeholder="https://github.com/your-username/repository"
-                />
-              </div>
+              <Layers className="h-5 w-5 text-primary" />
+              <h2 className="text-xl font-medium">Category & Links</h2>
             </div>
 
             <div>
-              <Label htmlFor="categoryId" className="text-foreground">
-                Category
-              </Label>
-              <select
-                id="categoryId"
-                name="categoryId"
-                value={formData.categoryId || ""}
-                onChange={handleChange}
-                className="w-full bg-background border border-border text-foreground rounded-md p-2"
+              <Label
+                htmlFor="categoryId"
+                className="text-foreground mb-2 block"
               >
-                <option value="">Select a category</option>
-                {categories.map((category) => (
-                  <option key={category.id} value={category.id}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-              <p className="text-xs text-muted-foreground mt-1">
-                Choose the category that best fits your product
-              </p>
+                Category *
+              </Label>
+              <div className="relative">
+                <CategorySelector
+                  categories={categories}
+                  selectedCategoryId={
+                    formData.categoryId
+                      ? Number(formData.categoryId)
+                      : undefined
+                  }
+                  onChange={(categoryId) => {
+                    setFormData((prev) => ({
+                      ...prev,
+                      categoryId: categoryId,
+                    }));
+                  }}
+                />
+              </div>
+              <div className="flex justify-between items-center mt-2">
+                <p className="text-xs text-muted-foreground">
+                  Choose the category that best fits your product
+                </p>
+                {categories.length === 0 && (
+                  <Button
+                    type="button"
+                    size="sm"
+                    onClick={seedCategories}
+                    disabled={isSeeding}
+                    className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                  >
+                    {isSeeding ? (
+                      <>
+                        <RefreshCw className="h-3 w-3 mr-2 animate-spin" />
+                        Adding...
+                      </>
+                    ) : (
+                      <>
+                        <RefreshCw className="h-3 w-3 mr-2" />
+                        Add Categories
+                      </>
+                    )}
+                  </Button>
+                )}
+              </div>
+            </div>
+
+            <div className="mt-6 pt-6 border-t border-border">
+              <h3 className="text-sm font-medium mb-4 flex items-center gap-2">
+                <LinkIcon className="h-4 w-4 text-primary" />
+                Product Links{" "}
+                <span className="text-xs text-muted-foreground">
+                  (Optional)
+                </span>
+              </h3>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="websiteUrl" className="text-foreground">
+                    Website
+                  </Label>
+                  <Input
+                    id="websiteUrl"
+                    name="websiteUrl"
+                    value={formData.websiteUrl}
+                    onChange={handleChange}
+                    className="bg-background border-border text-foreground"
+                    placeholder="https://yourwebsite.com"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="githubUrl" className="text-foreground">
+                    GitHub
+                  </Label>
+                  <Input
+                    id="githubUrl"
+                    name="githubUrl"
+                    value={formData.githubUrl}
+                    onChange={handleChange}
+                    className="bg-background border-border text-foreground"
+                    placeholder="https://github.com/your-username/repository"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         );
