@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
-import { Quicksand, Flavors } from "next/font/google";
+import { Inter, Flavors } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 
-const quicksand = Quicksand({
+const inter = Inter({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-quicksand",
+  variable: "--font-inter",
 });
 
 const flavors = Flavors({
@@ -39,11 +39,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${quicksand.variable} ${flavors.variable} antialiased`}
+      className={`${inter.variable} ${flavors.variable} antialiased`}
       suppressHydrationWarning
     >
       <head />
-      <body className="font-quicksand" suppressHydrationWarning>
+      <body className="font-inter" suppressHydrationWarning>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           {children}
           <Toaster />

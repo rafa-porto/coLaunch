@@ -9,7 +9,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        quicksand: ["var(--font-quicksand)"],
+        inter: ["var(--font-inter)"],
         flavors: ["var(--font-flavors)", "cursive"],
       },
       colors: {
