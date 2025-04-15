@@ -1,12 +1,5 @@
-import { InferSelectModel } from 'drizzle-orm';
-import { 
-  user, 
-  product, 
-  category, 
-  comment, 
-  upvote, 
-  productTag 
-} from './schema';
+import { InferSelectModel } from "drizzle-orm";
+import { user, product, category, comment, upvote, productTag } from "./schema";
 
 // Tipos inferidos das tabelas
 export type User = InferSelectModel<typeof user>;
@@ -54,7 +47,29 @@ export type ProductWithRelations = Product & {
   hasUpvoted?: boolean;
 };
 
-export type CommentWithUser = Comment & {
-  user: User;
-  replies?: CommentWithUser[];
+// Tipo para comentários com usuário e respostas
+export type CommentWithUser = {
+  id: number;
+  content: string;
+  productId: number;
+  userId: string;
+  parentId: number | null;
+  createdAt: string | Date;
+  updatedAt: string | Date;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    emailVerified: boolean;
+    image: string | null;
+    bio: string | null;
+    website: string | null;
+    twitter: string | null;
+    github: string | null;
+    linkedin: string | null;
+    isAdmin: boolean | null;
+    createdAt: string | Date;
+    updatedAt: string | Date;
+  } | null;
+  replies?: any[];
 };

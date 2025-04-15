@@ -57,6 +57,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
       }
 
       toast.success("Perfil atualizado com sucesso!");
+      router.push("/profile");
       router.refresh();
     } catch (error) {
       toast.error("Erro ao atualizar perfil");

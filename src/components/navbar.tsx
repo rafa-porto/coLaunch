@@ -163,16 +163,16 @@ export default function Navbar() {
                     className="w-56 bg-card border border-border text-card-foreground animate-in fade-in-50 slide-in-from-top-5 duration-200"
                   >
                     <DropdownMenuLabel className="font-medium">
-                      My Account
+                      Minha Conta
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator className="bg-border" />
                     <DropdownMenuItem className="hover:bg-muted cursor-pointer hover:text-foreground">
                       <Link
-                        href="/dashboard/profile"
+                        href="/profile"
                         className="flex w-full items-center"
                       >
                         <User className="h-4 w-4 mr-2" />
-                        Profile
+                        Perfil
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem className="hover:bg-muted cursor-pointer hover:text-foreground">
@@ -181,7 +181,7 @@ export default function Navbar() {
                         className="flex w-full items-center"
                       >
                         <Settings className="h-4 w-4 mr-2" />
-                        Settings
+                        Configurações
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator className="bg-border" />
@@ -191,7 +191,7 @@ export default function Navbar() {
                     >
                       <div className="flex items-center">
                         <LogOut className="h-4 w-4 mr-2" />
-                        Logout
+                        Sair
                       </div>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -207,7 +207,7 @@ export default function Navbar() {
                       "bg-background text-foreground border-border hover:bg-muted hover:text-foreground hidden sm:inline-flex transition-all duration-200",
                   })}
                 >
-                  Sign In
+                  Entrar
                 </Link>
                 <Link
                   href="/sign-up"
@@ -216,7 +216,7 @@ export default function Navbar() {
                       "bg-primary text-primary-foreground hover:bg-primary/90 font-medium shadow-sm hover:shadow-md transition-all duration-200",
                   })}
                 >
-                  Sign Up
+                  Cadastrar
                 </Link>
               </div>
             )}
