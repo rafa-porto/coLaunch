@@ -15,12 +15,13 @@ import { headers } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 import { ProfileFallback } from "@/components/profile/ProfileFallback";
+import ClientOnly from "@/components/ClientOnly";
 import {
   Edit,
-  Github,
+  GithubIcon,
   Globe,
-  Twitter,
-  Linkedin,
+  TwitterIcon,
+  LinkedinIcon,
   Package,
   ThumbsUp,
   MessageSquare,
@@ -103,7 +104,7 @@ export default async function ProfilePage() {
                   >
                     <Link href="/profile/edit">
                       <Edit className="h-4 w-4" />
-                      Editar Perfil
+                      Edit Profile
                     </Link>
                   </Button>
                 </div>
@@ -145,7 +146,7 @@ export default async function ProfilePage() {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <Github className="h-4 w-4" />
+                      <GithubIcon className="h-4 w-4" />
                       GitHub
                     </a>
                   </Button>
@@ -163,7 +164,7 @@ export default async function ProfilePage() {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <Twitter className="h-4 w-4" />
+                      <TwitterIcon className="h-4 w-4" />
                       Twitter
                     </a>
                   </Button>
@@ -181,7 +182,7 @@ export default async function ProfilePage() {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <Linkedin className="h-4 w-4" />
+                      <LinkedinIcon className="h-4 w-4" />
                       LinkedIn
                     </a>
                   </Button>
@@ -241,265 +242,277 @@ export default async function ProfilePage() {
 
       {/* Conteúdo principal */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-12">
-        <Tabs defaultValue="products" className="w-full">
-          <div className="flex justify-between items-center mb-6">
-            <TabsList className="bg-card border border-border">
-              <TabsTrigger value="products" className="text-muted-foreground">
-                Produtos
-              </TabsTrigger>
-              <TabsTrigger value="activity" className="text-muted-foreground">
-                Atividade
-              </TabsTrigger>
-              <TabsTrigger value="about" className="text-muted-foreground">
-                Sobre
-              </TabsTrigger>
-            </TabsList>
+        <ClientOnly>
+          <Tabs defaultValue="products" className="w-full">
+            <div className="flex justify-between items-center mb-6">
+              <TabsList className="bg-card border border-border">
+                <TabsTrigger value="products" className="text-muted-foreground">
+                  Products
+                </TabsTrigger>
+                <TabsTrigger value="activity" className="text-muted-foreground">
+                  Activity
+                </TabsTrigger>
+                <TabsTrigger value="about" className="text-muted-foreground">
+                  About
+                </TabsTrigger>
+              </TabsList>
 
-            <Button asChild className="bg-primary hover:bg-primary/90">
-              <Link href="/dashboard/products/new">Novo Produto</Link>
-            </Button>
-          </div>
-
-          <TabsContent value="products" className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {userProducts.length === 0 ? (
-                <div className="col-span-full text-center py-12 bg-card border border-border rounded-lg">
-                  <Package className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <p className="text-muted-foreground mb-4">
-                    Você ainda não enviou nenhum produto.
-                  </p>
-                  <Button asChild className="bg-primary hover:bg-primary/90">
-                    <Link href="/dashboard/products/new">
-                      Enviar meu primeiro produto
-                    </Link>
-                  </Button>
-                </div>
-              ) : (
-                userProducts.map((product) => (
-                  <Card
-                    key={product.id}
-                    className="bg-card border-border overflow-hidden hover:border-primary transition-all hover:shadow-md"
-                  >
-                    {product.thumbnail && (
-                      <div className="relative h-48 w-full">
-                        <Image
-                          src={product.thumbnail}
-                          alt={product.title}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                    )}
-                    <CardHeader>
-                      <CardTitle className="text-foreground">
-                        <Link
-                          href={`/products/${product.slug}`}
-                          className="hover:text-primary"
-                        >
-                          {product.title}
-                        </Link>
-                      </CardTitle>
-                      <CardDescription className="text-muted-foreground">
-                        {product.tagline}
-                      </CardDescription>
-                    </CardHeader>
-                    <CardFooter className="flex justify-between items-center pt-0">
-                      <div className="flex items-center gap-4 text-muted-foreground">
-                        <div className="flex items-center gap-1">
-                          <ThumbsUp className="h-4 w-4" />
-                          <span>{product.upvoteCount}</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <MessageSquare className="h-4 w-4" />
-                          <span>{product.commentCount}</span>
-                        </div>
-                      </div>
-                      <Button
-                        asChild
-                        size="sm"
-                        variant="outline"
-                        className="border-border text-muted-foreground hover:text-foreground"
-                      >
-                        <Link href={`/dashboard/products/${product.id}/edit`}>
-                          <Edit className="h-3 w-3 mr-1" />
-                          Editar
-                        </Link>
-                      </Button>
-                    </CardFooter>
-                  </Card>
-                ))
-              )}
+              <Button asChild className="bg-primary hover:bg-primary/90">
+                <Link href="/dashboard/products/new">New Product</Link>
+              </Button>
             </div>
-          </TabsContent>
 
-          <TabsContent value="activity" className="space-y-6">
-            <Card className="bg-card border border-border">
-              <CardHeader>
-                <CardTitle>Atividade Recente</CardTitle>
-                <CardDescription>
-                  Histórico de ações e interações do usuário
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-8">
-                  <div className="flex gap-4">
-                    <div className="bg-primary/10 p-2 rounded-full h-10 w-10 flex items-center justify-center">
-                      <ThumbsUp className="h-5 w-5 text-primary" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-foreground">
-                        Você recebeu um upvote em{" "}
-                        <Link
-                          href="/products/devtracker"
-                          className="text-primary hover:underline"
+            <TabsContent value="products" className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {userProducts.length === 0 ? (
+                  <div className="col-span-full text-center py-12 bg-card border border-border rounded-lg">
+                    <Package className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                    <p className="text-muted-foreground mb-4">You haven't sent any products yet.</p>
+                    <Button asChild className="bg-primary hover:bg-primary/90">
+                      <Link href="/dashboard/products/new">
+                        Send your first product
+                      </Link>
+                    </Button>
+                  </div>
+                ) : (
+                  userProducts.map((product) => (
+                    <Card
+                      key={product.id}
+                      className="bg-card border-border overflow-hidden hover:border-primary transition-all hover:shadow-md"
+                    >
+                      {product.thumbnail && (
+                        <div className="relative h-48 w-full">
+                          <Image
+                            src={product.thumbnail}
+                            alt={product.title}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      )}
+                      <CardHeader>
+                        <CardTitle className="text-foreground">
+                          <Link
+                            href={`/products/${product.slug}`}
+                            className="hover:text-primary"
+                          >
+                            {product.title}
+                          </Link>
+                        </CardTitle>
+                        <CardDescription className="text-muted-foreground">
+                          {product.tagline}
+                        </CardDescription>
+                      </CardHeader>
+                      <CardFooter className="flex justify-between items-center pt-0">
+                        <div className="flex items-center gap-4 text-muted-foreground">
+                          <div className="flex items-center gap-1">
+                            <ThumbsUp className="h-4 w-4" />
+                            <span>{product.upvoteCount}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <MessageSquare className="h-4 w-4" />
+                            <span>{product.commentCount}</span>
+                          </div>
+                        </div>
+                        <Button
+                          asChild
+                          size="sm"
+                          variant="outline"
+                          className="border-border text-muted-foreground hover:text-foreground"
                         >
-                          DevTracker
-                        </Link>
-                      </p>
-                      <p className="text-sm text-muted-foreground">Há 2 dias</p>
+                          <Link href={`/dashboard/products/${product.id}/edit`}>
+                            <Edit className="h-3 w-3 mr-1" />
+                            Edit
+                          </Link>
+                        </Button>
+                      </CardFooter>
+                    </Card>
+                  ))
+                )}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="activity" className="space-y-6">
+              <Card className="bg-card border border-border">
+                <CardHeader>
+                  <CardTitle>Recent Activity</CardTitle>
+                  <CardDescription>
+                    Recent actions and interactions from the user
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-8">
+                    <div className="flex gap-4">
+                      <div className="bg-primary/10 p-2 rounded-full h-10 w-10 flex items-center justify-center">
+                        <ThumbsUp className="h-5 w-5 text-primary" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-foreground">
+                          Você recebeu um upvote em{" "}
+                          <Link
+                            href="/products/devtracker"
+                            className="text-primary hover:underline"
+                          >
+                            DevTracker
+                          </Link>
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          Há 2 dias
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-4">
+                      <div className="bg-primary/10 p-2 rounded-full h-10 w-10 flex items-center justify-center">
+                        <MessageSquare className="h-5 w-5 text-primary" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-foreground">
+                          Novo comentário em{" "}
+                          <Link
+                            href="/products/codesnippet"
+                            className="text-primary hover:underline"
+                          >
+                            CodeSnippet
+                          </Link>
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          Há 5 dias
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-4">
+                      <div className="bg-primary/10 p-2 rounded-full h-10 w-10 flex items-center justify-center">
+                        <Package className="h-5 w-5 text-primary" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-foreground">
+                          Você adicionou{" "}
+                          <Link
+                            href="/products/designsystem"
+                            className="text-primary hover:underline"
+                          >
+                            DesignSystem
+                          </Link>
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          Há 2 semanas
+                        </p>
+                      </div>
                     </div>
                   </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
 
-                  <div className="flex gap-4">
-                    <div className="bg-primary/10 p-2 rounded-full h-10 w-10 flex items-center justify-center">
-                      <MessageSquare className="h-5 w-5 text-primary" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-foreground">
-                        Novo comentário em{" "}
-                        <Link
-                          href="/products/codesnippet"
-                          className="text-primary hover:underline"
-                        >
-                          CodeSnippet
-                        </Link>
-                      </p>
-                      <p className="text-sm text-muted-foreground">Há 5 dias</p>
-                    </div>
+            <TabsContent value="about" className="space-y-6">
+              <Card className="bg-card border border-border">
+                <CardHeader>
+                  <CardTitle>Sobre {user?.name}</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div>
+                    <h3 className="text-lg font-medium text-foreground mb-2">
+                      Bio
+                    </h3>
+                    <p className="text-muted-foreground">
+                      {user?.bio || "Nenhuma bio disponível."}
+                    </p>
                   </div>
 
-                  <div className="flex gap-4">
-                    <div className="bg-primary/10 p-2 rounded-full h-10 w-10 flex items-center justify-center">
-                      <Package className="h-5 w-5 text-primary" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-foreground">
-                        Você adicionou{" "}
-                        <Link
-                          href="/products/designsystem"
-                          className="text-primary hover:underline"
-                        >
-                          DesignSystem
-                        </Link>
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        Há 2 semanas
-                      </p>
-                    </div>
+                  <Separator className="bg-border" />
+
+                  <div>
+                    <h3 className="text-lg font-medium text-foreground mb-2">
+                      Informações
+                    </h3>
+                    <dl className="space-y-2">
+                      <div className="flex flex-col sm:flex-row">
+                        <dt className="text-muted-foreground w-32">
+                          Membro desde
+                        </dt>
+                        <dd className="text-foreground">
+                          {user?.createdAt
+                            ? new Date(user.createdAt).toLocaleDateString(
+                                "pt-BR"
+                              )
+                            : ""}
+                        </dd>
+                      </div>
+                      {user?.website && (
+                        <div className="flex flex-col sm:flex-row">
+                          <dt className="text-muted-foreground w-32">
+                            Website
+                          </dt>
+                          <dd className="text-foreground">
+                            <a
+                              href={user.website}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-primary hover:underline"
+                            >
+                              {user.website}
+                            </a>
+                          </dd>
+                        </div>
+                      )}
+                      {user?.github && (
+                        <div className="flex flex-col sm:flex-row">
+                          <dt className="text-muted-foreground w-32">GitHub</dt>
+                          <dd className="text-foreground">
+                            <a
+                              href={`https://github.com/${user.github}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-primary hover:underline"
+                            >
+                              @{user.github}
+                            </a>
+                          </dd>
+                        </div>
+                      )}
+                      {user?.twitter && (
+                        <div className="flex flex-col sm:flex-row">
+                          <dt className="text-muted-foreground w-32">
+                            Twitter
+                          </dt>
+                          <dd className="text-foreground">
+                            <a
+                              href={`https://twitter.com/${user.twitter}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-primary hover:underline"
+                            >
+                              @{user.twitter}
+                            </a>
+                          </dd>
+                        </div>
+                      )}
+                      {user?.linkedin && (
+                        <div className="flex flex-col sm:flex-row">
+                          <dt className="text-muted-foreground w-32">
+                            LinkedIn
+                          </dt>
+                          <dd className="text-foreground">
+                            <a
+                              href={`https://linkedin.com/in/${user.linkedin}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-primary hover:underline"
+                            >
+                              {user.linkedin}
+                            </a>
+                          </dd>
+                        </div>
+                      )}
+                    </dl>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="about" className="space-y-6">
-            <Card className="bg-card border border-border">
-              <CardHeader>
-                <CardTitle>Sobre {user?.name}</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div>
-                  <h3 className="text-lg font-medium text-foreground mb-2">
-                    Bio
-                  </h3>
-                  <p className="text-muted-foreground">
-                    {user?.bio || "Nenhuma bio disponível."}
-                  </p>
-                </div>
-
-                <Separator className="bg-border" />
-
-                <div>
-                  <h3 className="text-lg font-medium text-foreground mb-2">
-                    Informações
-                  </h3>
-                  <dl className="space-y-2">
-                    <div className="flex flex-col sm:flex-row">
-                      <dt className="text-muted-foreground w-32">
-                        Membro desde
-                      </dt>
-                      <dd className="text-foreground">
-                        {user?.createdAt
-                          ? new Date(user.createdAt).toLocaleDateString("pt-BR")
-                          : ""}
-                      </dd>
-                    </div>
-                    {user?.website && (
-                      <div className="flex flex-col sm:flex-row">
-                        <dt className="text-muted-foreground w-32">Website</dt>
-                        <dd className="text-foreground">
-                          <a
-                            href={user.website}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-primary hover:underline"
-                          >
-                            {user.website}
-                          </a>
-                        </dd>
-                      </div>
-                    )}
-                    {user?.github && (
-                      <div className="flex flex-col sm:flex-row">
-                        <dt className="text-muted-foreground w-32">GitHub</dt>
-                        <dd className="text-foreground">
-                          <a
-                            href={`https://github.com/${user.github}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-primary hover:underline"
-                          >
-                            @{user.github}
-                          </a>
-                        </dd>
-                      </div>
-                    )}
-                    {user?.twitter && (
-                      <div className="flex flex-col sm:flex-row">
-                        <dt className="text-muted-foreground w-32">Twitter</dt>
-                        <dd className="text-foreground">
-                          <a
-                            href={`https://twitter.com/${user.twitter}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-primary hover:underline"
-                          >
-                            @{user.twitter}
-                          </a>
-                        </dd>
-                      </div>
-                    )}
-                    {user?.linkedin && (
-                      <div className="flex flex-col sm:flex-row">
-                        <dt className="text-muted-foreground w-32">LinkedIn</dt>
-                        <dd className="text-foreground">
-                          <a
-                            href={`https://linkedin.com/in/${user.linkedin}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-primary hover:underline"
-                          >
-                            {user.linkedin}
-                          </a>
-                        </dd>
-                      </div>
-                    )}
-                  </dl>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+        </ClientOnly>
       </div>
     </div>
   );

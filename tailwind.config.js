@@ -10,7 +10,7 @@ module.exports = {
     extend: {
       fontFamily: {
         quicksand: ["var(--font-quicksand)"],
-        flavors: ["Flavors", "cursive"],
+        flavors: ["var(--font-flavors)", "cursive"],
       },
       colors: {
         background: "var(--background)",

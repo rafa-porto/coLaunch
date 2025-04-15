@@ -52,16 +52,24 @@ export function ProfileForm({ user }: ProfileFormProps) {
         body: JSON.stringify(formData),
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        throw new Error("Falha ao atualizar perfil");
+        // Mostrar mensagem de erro específica se disponível
+        const errorMessage = data.error || "Falha ao atualizar perfil";
+        toast.error(errorMessage);
+        return;
       }
 
       toast.success("Perfil atualizado com sucesso!");
       router.push("/profile");
       router.refresh();
     } catch (error) {
-      toast.error("Erro ao atualizar perfil");
-      console.error(error);
+      // Mostrar mensagem de erro mais detalhada
+      const errorMessage =
+        error instanceof Error ? error.message : "Erro ao atualizar perfil";
+      toast.error(errorMessage);
+      console.error("Erro ao atualizar perfil:", error);
     } finally {
       setIsSubmitting(false);
     }

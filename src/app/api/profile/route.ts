@@ -6,27 +6,31 @@ import { eq } from "drizzle-orm";
 
 export async function PUT(request: NextRequest) {
   try {
-    const session = await auth();
-    
+    // Obter os headers da requisição
+    const requestHeaders = new Headers(request.headers);
+
+    // Obter a sessão usando os headers da requisição
+    const session = await auth.api.getSession({
+      headers: requestHeaders,
+    });
+
     if (!session || !session.user) {
-      return NextResponse.json(
-        { error: "Não autorizado" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
     }
-    
+
     const body = await request.json();
     const { name, bio, website, twitter, github, linkedin } = body;
-    
+
     if (!name || typeof name !== "string" || name.trim() === "") {
       return NextResponse.json(
         { error: "Nome é obrigatório" },
         { status: 400 }
       );
     }
-    
+
     // Atualizar o perfil do usuário
-    const [updatedUser] = await db.update(user)
+    const [updatedUser] = await db
+      .update(user)
       .set({
         name: name.trim(),
         bio: bio?.trim() || null,
@@ -38,7 +42,7 @@ export async function PUT(request: NextRequest) {
       })
       .where(eq(user.id, session.user.id))
       .returning();
-    
+
     return NextResponse.json(updatedUser);
   } catch (error) {
     console.error("Erro ao atualizar perfil:", error);
