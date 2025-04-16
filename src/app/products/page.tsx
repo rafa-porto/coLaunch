@@ -32,29 +32,32 @@ interface Product {
   };
 }
 
-export default function ProductsPage({
+export default async function ProductsPage({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  // Extrair parâmetros de busca
+  // Aguardar a resolução da Promise de searchParams
+  const resolvedParams = await searchParams;
+
+  // Extrair parâmetros de busca de forma segura
   const categorySlug =
-    typeof searchParams.category === "string"
-      ? searchParams.category
+    typeof resolvedParams.category === "string"
+      ? resolvedParams.category
       : undefined;
-  const featured = searchParams.featured === "true";
+  const featured = resolvedParams.featured === "true";
   const page =
-    typeof searchParams.page === "string" ? parseInt(searchParams.page) : 1;
+    typeof resolvedParams.page === "string" ? parseInt(resolvedParams.page) : 1;
   const limit = 12;
   const offset = (page - 1) * limit;
   const viewMode =
-    typeof searchParams.view === "string" ? searchParams.view : "list";
+    typeof resolvedParams.view === "string" ? resolvedParams.view : "list";
   const sortBy =
-    typeof searchParams.sort === "string" ? searchParams.sort : "newest";
+    typeof resolvedParams.sort === "string" ? resolvedParams.sort : "newest";
 
   // Versão simplificada sem consultas ao banco de dados para evitar erros
   const products: Product[] = [];
-  const categories = [];
+  const categories: { id: number; name: string; slug: string }[] = [];
 
   return (
     <div className="bg-background min-h-screen">
@@ -369,7 +372,7 @@ export default function ProductsPage({
                     asChild
                   >
                     <Link
-                      href={`/products?page=${page - 1}${categorySlug ? `&category=${categorySlug}` : ""}${viewMode ? `&view=${viewMode}` : ""}${sortBy ? `&sort=${sortBy}` : ""}`}
+                      href={`/products?page=${page - 1}${categorySlug ? `&category=${categorySlug}` : ""}${viewMode !== "list" ? `&view=${viewMode}` : ""}${sortBy !== "newest" ? `&sort=${sortBy}` : ""}`}
                     >
                       Previous
                     </Link>
@@ -383,7 +386,7 @@ export default function ProductsPage({
                     asChild
                   >
                     <Link
-                      href={`/products?page=${page + 1}${categorySlug ? `&category=${categorySlug}` : ""}${viewMode ? `&view=${viewMode}` : ""}${sortBy ? `&sort=${sortBy}` : ""}`}
+                      href={`/products?page=${page + 1}${categorySlug ? `&category=${categorySlug}` : ""}${viewMode !== "list" ? `&view=${viewMode}` : ""}${sortBy !== "newest" ? `&sort=${sortBy}` : ""}`}
                     >
                       Next
                     </Link>
