@@ -7,7 +7,7 @@ import { eq, and } from "drizzle-orm";
 // Rota para excluir um produto
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Obter os headers da requisição
@@ -22,7 +22,9 @@ export async function DELETE(
       return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
     }
 
-    const productId = parseInt(params.id);
+    // Aguardar a resolução da Promise de params
+    const resolvedParams = await params;
+    const productId = parseInt(resolvedParams.id);
 
     if (isNaN(productId)) {
       return NextResponse.json(
@@ -70,10 +72,12 @@ export async function DELETE(
 // Rota para obter um produto específico
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const productId = parseInt(params.id);
+    // Aguardar a resolução da Promise de params
+    const resolvedParams = await params;
+    const productId = parseInt(resolvedParams.id);
 
     if (isNaN(productId)) {
       return NextResponse.json(
@@ -110,7 +114,7 @@ export async function GET(
 // Rota para atualizar um produto
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Obter os headers da requisição
@@ -125,7 +129,9 @@ export async function PUT(
       return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
     }
 
-    const productId = parseInt(params.id);
+    // Aguardar a resolução da Promise de params
+    const resolvedParams = await params;
+    const productId = parseInt(resolvedParams.id);
 
     if (isNaN(productId)) {
       return NextResponse.json(
