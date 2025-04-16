@@ -3,13 +3,14 @@
 import {
   Banana,
   Search,
-  Package,
-  Star,
   Menu,
   X,
   User,
   Settings,
   LogOut,
+  ChevronDown,
+  Home,
+  PlusCircle,
 } from "lucide-react";
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
@@ -62,29 +63,29 @@ export default function Navbar() {
 
   const navLinks = [
     {
+      href: "/",
+      label: "Home",
+      icon: <Home className="h-4 w-4 mr-2" />,
+    },
+    {
       href: "/products",
       label: "Explore",
       icon: <Search className="h-4 w-4 mr-2" />,
     },
     {
-      href: "/products?featured=true",
-      label: "Featured",
-      icon: <Star className="h-4 w-4 mr-2" />,
-    },
-    {
       href: "/submit-product",
-      label: "Submit Product",
-      icon: <Package className="h-4 w-4 mr-2" />,
+      label: "Submit",
+      icon: <PlusCircle className="h-4 w-4 mr-2" />,
     },
   ];
 
   return (
     <nav
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-200",
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
         scrolled
-          ? "backdrop-blur-md bg-background/95 border-b border-border shadow-md py-2"
-          : "backdrop-blur-none bg-background/0 py-4"
+          ? "backdrop-blur-md bg-background/95 border-b border-border/60 shadow-md py-2"
+          : "backdrop-blur-sm bg-background/30 py-4"
       )}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -92,22 +93,30 @@ export default function Navbar() {
           <div className="flex items-center">
             <Link
               href="/"
-              className="flex items-center gap-2 transition-colors hover:text-foreground"
+              className="flex items-center gap-2 transition-colors hover:text-foreground group"
             >
-              <Banana
-                className={cn(
-                  "transition-all duration-200",
-                  scrolled ? "h-6 w-6 text-primary" : "h-7 w-7 text-primary"
-                )}
-              />
+              <div className="relative">
+                <div
+                  className={cn(
+                    "absolute -inset-1 bg-gradient-to-r from-primary/40 to-primary/20 rounded-full blur opacity-0 group-hover:opacity-100 transition duration-500",
+                    scrolled ? "scale-75" : "scale-100"
+                  )}
+                ></div>
+                <Banana
+                  className={cn(
+                    "relative transition-all duration-300",
+                    scrolled ? "h-6 w-6 text-primary" : "h-7 w-7 text-primary"
+                  )}
+                />
+              </div>
               <span
                 className={cn(
-                  "font-bold transition-all duration-200",
+                  "font-bold transition-all duration-300",
                   scrolled ? "text-lg text-primary" : "text-xl text-primary"
                 )}
               >
                 co
-                <span className="font-extralight text-muted-foreground transition-all duration-200">
+                <span className="font-extralight text-muted-foreground transition-all duration-300">
                   Launch
                 </span>
               </span>
@@ -121,11 +130,11 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center",
+                  "px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center",
                   pathname === link.href ||
                     (link.href.includes("?") &&
                       pathname === link.href.split("?")[0])
-                    ? "text-foreground bg-muted"
+                    ? "text-primary bg-primary/10 shadow-sm"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                 )}
               >
@@ -136,62 +145,74 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center gap-4">
+            {/* Notification bell - hidden for now */}
+            {/* <button className="hidden md:flex items-center justify-center h-9 w-9 rounded-full bg-muted/50 hover:bg-muted transition-colors relative">
+              <Bell className="h-4 w-4 text-muted-foreground" />
+              <span className="absolute top-1 right-1.5 h-2 w-2 rounded-full bg-primary"></span>
+            </button> */}
+
             <div className="hidden md:block">
               <ModeToggle />
             </div>
+
             {isPending ? (
-              <div className="w-8 h-8 rounded-full bg-muted animate-pulse" />
+              <div className="w-9 h-9 rounded-full bg-muted/50 animate-pulse" />
             ) : session ? (
               <div className="flex items-center">
                 <DropdownMenu>
-                  <DropdownMenuTrigger className="flex items-center space-x-2 px-3 py-2 hover:bg-muted cursor-pointer bg-background border border-border rounded-lg focus:outline-none transition-all duration-200 hover:text-foreground hover:shadow-sm">
-                    <Image
-                      src={
-                        session?.user?.image || `https://github.com/shadcn.png`
-                      }
-                      alt="Profile"
-                      width={32}
-                      height={32}
-                      className="w-8 h-8 rounded-full"
-                    />
+                  <DropdownMenuTrigger className="flex items-center space-x-2 px-3 py-2 hover:bg-primary/5 cursor-pointer bg-card/80 backdrop-blur-sm border border-border/60 rounded-lg focus:outline-none transition-all duration-200 hover:text-foreground hover:shadow-md">
+                    <div className="relative">
+                      <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/30 to-primary/10 rounded-full blur opacity-30 group-hover:opacity-100 transition duration-500"></div>
+                      <Image
+                        src={
+                          session?.user?.image ||
+                          `https://github.com/shadcn.png`
+                        }
+                        alt="Profile"
+                        width={32}
+                        height={32}
+                        className="w-8 h-8 rounded-full border-2 border-background"
+                      />
+                    </div>
                     <span className="text-sm font-medium text-foreground hidden sm:inline-block">
-                      {session?.user?.name || "Usuário"}
+                      {session?.user?.name || "User"}
                     </span>
+                    <ChevronDown className="h-4 w-4 text-muted-foreground" />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent
                     align="end"
-                    className="w-56 bg-card border border-border text-card-foreground animate-in fade-in-50 slide-in-from-top-5 duration-200"
+                    className="w-56 bg-card/95 backdrop-blur-sm border border-border/60 text-card-foreground animate-in fade-in-50 slide-in-from-top-5 duration-200 shadow-lg rounded-lg"
                   >
                     <DropdownMenuLabel className="font-medium">
-                      Minha Conta
+                      My Account
                     </DropdownMenuLabel>
-                    <DropdownMenuSeparator className="bg-border" />
-                    <DropdownMenuItem className="hover:bg-muted cursor-pointer hover:text-foreground">
+                    <DropdownMenuSeparator className="bg-border/60" />
+                    <DropdownMenuItem className="hover:bg-primary/5 cursor-pointer hover:text-foreground transition-colors">
                       <Link
                         href="/profile"
                         className="flex w-full items-center"
                       >
-                        <User className="h-4 w-4 mr-2" />
-                        Perfil
+                        <User className="h-4 w-4 mr-2 text-primary" />
+                        Profile
                       </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="hover:bg-muted cursor-pointer hover:text-foreground">
+                    <DropdownMenuItem className="hover:bg-primary/5 cursor-pointer hover:text-foreground transition-colors">
                       <Link
-                        href="/profile"
+                        href="/profile/edit"
                         className="flex w-full items-center"
                       >
-                        <Settings className="h-4 w-4 mr-2" />
-                        Configurações
+                        <Settings className="h-4 w-4 mr-2 text-primary" />
+                        Settings
                       </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuSeparator className="bg-border" />
+                    <DropdownMenuSeparator className="bg-border/60" />
                     <DropdownMenuItem
                       onClick={handleSignOut}
-                      className="text-destructive cursor-pointer hover:bg-muted hover:text-destructive"
+                      className="text-destructive cursor-pointer hover:bg-destructive/10 hover:text-destructive transition-colors"
                     >
                       <div className="flex items-center">
                         <LogOut className="h-4 w-4 mr-2" />
-                        Sair
+                        Sign Out
                       </div>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -204,10 +225,10 @@ export default function Navbar() {
                   className={buttonVariants({
                     variant: "outline",
                     className:
-                      "bg-background text-foreground border-border hover:bg-muted hover:text-foreground hidden sm:inline-flex transition-all duration-200",
+                      "bg-card/80 backdrop-blur-sm text-foreground border-border/60 hover:bg-primary/5 hover:text-foreground hidden sm:inline-flex transition-all duration-200 shadow-sm hover:shadow-md",
                   })}
                 >
-                  Entrar
+                  Sign In
                 </Link>
                 <Link
                   href="/sign-up"
@@ -216,7 +237,7 @@ export default function Navbar() {
                       "bg-primary text-primary-foreground hover:bg-primary/90 font-medium shadow-sm hover:shadow-md transition-all duration-200",
                   })}
                 >
-                  Cadastrar
+                  Sign Up
                 </Link>
               </div>
             )}
@@ -224,7 +245,7 @@ export default function Navbar() {
             {/* Mobile menu button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden ml-2 p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+              className="md:hidden ml-2 p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-primary/5 transition-colors"
               aria-label="Toggle menu"
             >
               {isMenuOpen ? (
@@ -238,7 +259,7 @@ export default function Navbar() {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden py-3 px-2 space-y-1 border-t border-border mt-2 animate-in fade-in slide-in-from-top-5 duration-200">
+          <div className="md:hidden py-3 px-2 space-y-1 border-t border-border/60 mt-2 animate-in fade-in slide-in-from-top-5 duration-200">
             <div className="flex justify-center py-2">
               <ModeToggle />
             </div>
@@ -247,12 +268,12 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "px-3 py-2 rounded-md text-base font-medium transition-colors flex items-center",
+                  "px-3 py-2 rounded-lg text-base font-medium transition-all duration-200 flex items-center",
                   pathname === link.href ||
                     (link.href.includes("?") &&
                       pathname === link.href.split("?")[0])
-                    ? "text-foreground bg-muted"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                    ? "text-primary bg-primary/10 shadow-sm"
+                    : "text-muted-foreground hover:text-foreground hover:bg-primary/5"
                 )}
               >
                 {link.icon}

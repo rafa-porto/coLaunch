@@ -58,52 +58,88 @@ export function DeleteProductDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] bg-card/95 backdrop-blur-sm border-border shadow-lg rounded-xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-destructive">
-            <AlertTriangle className="h-5 w-5" />
-            Excluir Produto
+            <div className="bg-destructive/10 p-1.5 rounded-full">
+              <AlertTriangle className="h-5 w-5 text-destructive" />
+            </div>
+            Delete Product
           </DialogTitle>
-          <DialogDescription>
-            Tem certeza que deseja excluir o produto{" "}
-            <span className="font-semibold">{productTitle}</span>? Esta ação não
-            pode ser desfeita.
+          <DialogDescription className="pt-2">
+            Are you sure you want to delete{" "}
+            <span className="font-semibold text-foreground">
+              {productTitle}
+            </span>
+            ? This action cannot be undone.
           </DialogDescription>
         </DialogHeader>
 
-        <div className="bg-destructive/10 border border-destructive/30 rounded-md p-4 mt-2">
-          <p className="text-sm text-destructive">
-            Ao excluir este produto, você também removerá:
+        <div className="bg-destructive/10 border border-destructive/30 rounded-lg p-4 mt-2">
+          <p className="text-sm text-destructive font-medium mb-2">
+            Deleting this product will also remove:
           </p>
-          <ul className="text-sm mt-2 space-y-1 text-muted-foreground">
-            <li>• Todos os upvotes recebidos</li>
-            <li>• Todos os comentários</li>
-            <li>• Todas as tags associadas</li>
+          <ul className="text-sm space-y-2 text-muted-foreground">
+            <li className="flex items-start gap-2">
+              <span className="text-destructive">•</span>
+              <span>All upvotes received</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-destructive">•</span>
+              <span>All comments and discussions</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-destructive">•</span>
+              <span>All associated tags</span>
+            </li>
           </ul>
         </div>
 
-        <DialogFooter className="gap-2 sm:gap-0 mt-4">
+        <DialogFooter className="gap-2 sm:gap-0 mt-6">
           <Button
             type="button"
             variant="outline"
             onClick={onClose}
             disabled={isDeleting}
+            className="border-border hover:bg-background/80 transition-all duration-300"
           >
-            Cancelar
+            Cancel
           </Button>
           <Button
             type="button"
             variant="destructive"
             onClick={handleDelete}
             disabled={isDeleting}
-            className="gap-2"
+            className="gap-2 hover:bg-destructive/90 transition-all duration-300 shadow-sm"
           >
             {isDeleting ? (
-              <>Excluindo...</>
+              <>
+                <svg
+                  className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+                Deleting...
+              </>
             ) : (
               <>
                 <Trash2 className="h-4 w-4" />
-                Excluir Produto
+                Delete Product
               </>
             )}
           </Button>
