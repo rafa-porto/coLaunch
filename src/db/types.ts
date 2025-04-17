@@ -20,6 +20,7 @@ export type ProductFormData = {
   tags: string[];
   thumbnail?: string;
   images?: string[];
+  publishedAt?: string; // Data de lançamento agendado
 };
 
 export type CommentFormData = {

@@ -3,7 +3,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { ThumbsUp, MessageSquare, ExternalLink, Package } from "lucide-react";
+import {
+  ThumbsUp,
+  MessageSquare,
+  ExternalLink,
+  Package,
+  Calendar,
+} from "lucide-react";
+import { format } from "date-fns";
 
 interface ProductHuntStyleCardProps {
   product: {
@@ -14,6 +21,7 @@ interface ProductHuntStyleCardProps {
     thumbnail: string | null;
     upvoteCount: number;
     commentCount: number;
+    publishedAt?: string | Date;
     user?: {
       name: string;
       image: string;
@@ -23,20 +31,22 @@ interface ProductHuntStyleCardProps {
   index?: number;
 }
 
-export function ProductHuntStyleCard({ 
-  product, 
+export function ProductHuntStyleCard({
+  product,
   featured = false,
-  index
+  index,
 }: ProductHuntStyleCardProps) {
   return (
-    <div className={`group flex flex-col sm:flex-row gap-4 p-4 rounded-xl border border-border/60 bg-card/80 backdrop-blur-sm hover:shadow-md transition-all ${featured ? 'border-primary/30 shadow-sm' : ''}`}>
+    <div
+      className={`group flex flex-col sm:flex-row gap-4 p-4 rounded-xl border border-border/60 bg-card/80 backdrop-blur-sm hover:shadow-md transition-all ${featured ? "border-primary/30 shadow-sm" : ""}`}
+    >
       {/* Número do produto (opcional) */}
       {index !== undefined && (
         <div className="hidden sm:flex items-center justify-center w-8 h-8 text-lg font-semibold text-muted-foreground">
           {index + 1}
         </div>
       )}
-      
+
       {/* Thumbnail */}
       <div className="flex-shrink-0">
         <div className="relative w-full sm:w-16 h-16 rounded-lg overflow-hidden border border-border/40">
@@ -52,7 +62,7 @@ export function ProductHuntStyleCard({
               <Package className="h-6 w-6 text-primary/30" />
             </div>
           )}
-          
+
           {featured && (
             <div className="absolute top-0 right-0">
               <div className="bg-primary text-primary-foreground px-1.5 py-0.5 text-[10px] font-medium">
@@ -62,7 +72,7 @@ export function ProductHuntStyleCard({
           )}
         </div>
       </div>
-      
+
       {/* Conteúdo */}
       <div className="flex-1 min-w-0">
         <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-1">
@@ -74,7 +84,7 @@ export function ProductHuntStyleCard({
               {product.title}
             </Link>
           </h3>
-          
+
           {/* Botões de ação em telas pequenas */}
           <div className="flex sm:hidden items-center gap-2 ml-auto">
             <Button
@@ -87,11 +97,20 @@ export function ProductHuntStyleCard({
             </Button>
           </div>
         </div>
-        
+
         <p className="text-sm text-muted-foreground line-clamp-2 mb-2">
           {product.tagline}
         </p>
-        
+
+        {product.publishedAt && (
+          <div className="flex items-center gap-1 mb-2 text-xs text-muted-foreground">
+            <Calendar className="h-3 w-3" />
+            <span>
+              Launches on {format(new Date(product.publishedAt), "MMM d, yyyy")}
+            </span>
+          </div>
+        )}
+
         <div className="flex items-center justify-between">
           {/* Informações do usuário */}
           <div className="flex items-center gap-2">
@@ -116,14 +135,14 @@ export function ProductHuntStyleCard({
               {product.user?.name || "Anonymous"}
             </span>
           </div>
-          
+
           {/* Estatísticas e ações */}
           <div className="flex items-center gap-3">
             <div className="hidden sm:flex items-center gap-1 text-muted-foreground text-xs">
               <MessageSquare className="h-3.5 w-3.5" />
               <span>{product.commentCount}</span>
             </div>
-            
+
             {/* Botão de upvote em telas maiores */}
             <div className="hidden sm:block">
               <Button
@@ -135,7 +154,7 @@ export function ProductHuntStyleCard({
                 <span>{product.upvoteCount}</span>
               </Button>
             </div>
-            
+
             <Button
               asChild
               size="sm"

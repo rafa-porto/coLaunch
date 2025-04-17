@@ -19,7 +19,15 @@ import {
   Image as ImageIcon,
   Layers,
   RefreshCw,
+  Calendar,
 } from "lucide-react";
+import { format, addDays } from "date-fns";
+import { Calendar as CalendarComponent } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Card, CardContent } from "@/components/ui/card";
 import { SuccessMessage } from "./SuccessMessage";
 import { useFormStep } from "@/hooks/useFormStep";
@@ -63,7 +71,26 @@ export function MultiStepProductForm({
     tags: product?.tags?.map((tag: any) => tag.name) || [],
     thumbnail: product?.thumbnail || "",
     images: product?.images || [],
+    publishedAt: product?.publishedAt
+      ? new Date(product.publishedAt).toISOString().split("T")[0]
+      : "",
   });
+
+  // Definir a data mínima como amanhã (não pode ser o dia atual)
+  const tomorrow = addDays(new Date(), 1);
+  const [date, setDate] = useState<Date | undefined>(
+    formData.publishedAt ? new Date(formData.publishedAt) : undefined
+  );
+  
+  // Atualizar formData quando a data mudar
+  useEffect(() => {
+    if (date) {
+      setFormData((prev) => ({
+        ...prev,
+        publishedAt: format(date, "yyyy-MM-dd"),
+      }));
+    }
+  }, [date]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [tagInput, setTagInput] = useState("");
@@ -112,7 +139,7 @@ export function MultiStepProductForm({
       case 2: // Description
         return !!formData.description.trim();
       case 3: // Category & Links
-        return !!formData.categoryId; // Category is required
+        return !!formData.categoryId && !!formData.publishedAt; // Category and launch date are required
       case 4: // Tags and images
         return true; // Optional
       default:
@@ -179,7 +206,8 @@ export function MultiStepProductForm({
       !formData.title.trim() ||
       !formData.tagline.trim() ||
       !formData.description.trim() ||
-      !formData.categoryId
+      !formData.categoryId ||
+      !formData.publishedAt
     ) {
       toast.error("Please fill in all required fields");
 
@@ -188,7 +216,7 @@ export function MultiStepProductForm({
         setCurrentStep(1);
       } else if (!formData.description.trim()) {
         setCurrentStep(2);
-      } else if (!formData.categoryId) {
+      } else if (!formData.categoryId || !formData.publishedAt) {
         setCurrentStep(3);
       }
 
@@ -505,6 +533,45 @@ export function MultiStepProductForm({
 
             <div className="mt-6 p-4 bg-muted/20 rounded-lg -mx-4">
               <h3 className="text-sm font-medium mb-4 flex items-center gap-2 text-foreground">
+                <Calendar className="h-4 w-4 text-primary" />
+                Launch Date{" "}
+                <span className="ml-1 text-xs text-muted-foreground font-normal bg-muted px-2 py-0.5 rounded-full">
+                  Required
+                </span>
+              </h3>
+
+              <div className="mb-6">
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={`w-full justify-start text-left font-normal ${!date ? "text-muted-foreground" : ""}`}
+                    >
+                      <Calendar className="mr-2 h-4 w-4" />
+                      {date ? (
+                        format(date, "PPP")
+                      ) : (
+                        <span>Schedule launch date</span>
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <CalendarComponent
+                      mode="single"
+                      selected={date}
+                      onSelect={setDate}
+                      disabled={(date) => date < tomorrow}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+                <p className="text-xs text-muted-foreground mt-2">
+                  Schedule when your product will be launched. Must be a future
+                  date (not today).
+                </p>
+              </div>
+
+              <h3 className="text-sm font-medium mb-4 flex items-center gap-2 text-foreground">
                 <LinkIcon className="h-4 w-4 text-primary" />
                 Product Links{" "}
                 <span className="text-xs text-muted-foreground font-normal">
@@ -776,6 +843,16 @@ export function MultiStepProductForm({
                   </span>
                   <span className="text-muted-foreground">
                     {formData.websiteUrl || "Not provided"}
+                  </span>
+                </div>
+                <div className="flex items-start">
+                  <span className="font-medium text-foreground min-w-24">
+                    Launch Date:
+                  </span>
+                  <span className="text-muted-foreground">
+                    {formData.publishedAt
+                      ? format(new Date(formData.publishedAt), "PPP")
+                      : "Not scheduled"}
                   </span>
                 </div>
               </div>

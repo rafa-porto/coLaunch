@@ -30,12 +30,29 @@ export async function POST(request: NextRequest) {
       thumbnail,
       images,
       slug,
+      publishedAt,
     } = body;
 
     // Validação básica
-    if (!title || !tagline || !description) {
+    if (!title || !tagline || !description || !publishedAt) {
       return NextResponse.json(
         { error: "Campos obrigatórios não preenchidos" },
+        { status: 400 }
+      );
+    }
+
+    // Validar que a data de lançamento não é o dia atual ou anterior
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const publishDate = new Date(publishedAt);
+    publishDate.setHours(0, 0, 0, 0);
+
+    if (publishDate <= today) {
+      return NextResponse.json(
+        {
+          error:
+            "A data de lançamento deve ser uma data futura (não pode ser hoje)",
+        },
         { status: 400 }
       );
     }
@@ -68,6 +85,7 @@ export async function POST(request: NextRequest) {
         status: "pending", // Produtos começam como pendentes para moderação
         createdAt: new Date(),
         updatedAt: new Date(),
+        publishedAt: new Date(publishedAt),
       })
       .returning();
 

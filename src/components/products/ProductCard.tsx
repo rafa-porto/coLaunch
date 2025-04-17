@@ -19,7 +19,9 @@ import {
   Trash2,
   ChevronRight,
   Package,
+  Calendar,
 } from "lucide-react";
+import { format } from "date-fns";
 import { DeleteProductDialog } from "./DeleteProductDialog";
 
 interface ProductCardProps {
@@ -31,6 +33,7 @@ interface ProductCardProps {
     thumbnail: string | null;
     upvoteCount: number;
     commentCount: number;
+    publishedAt?: string | Date;
   };
 }
 
@@ -82,6 +85,15 @@ export function ProductCard({ product }: ProductCardProps) {
           <CardDescription className="text-muted-foreground line-clamp-2">
             {product.tagline}
           </CardDescription>
+          {product.publishedAt && (
+            <div className="flex items-center gap-1 mt-2 text-xs text-muted-foreground">
+              <Calendar className="h-3 w-3" />
+              <span>
+                Launches on{" "}
+                {format(new Date(product.publishedAt), "MMM d, yyyy")}
+              </span>
+            </div>
+          )}
         </CardHeader>
 
         <CardFooter className="flex justify-between items-center pt-0 pb-4">
